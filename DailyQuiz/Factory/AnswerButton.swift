@@ -1,0 +1,83 @@
+import UIKit
+
+enum QuizAnswerState {
+    case defaultChoice
+    case selected
+    case correct
+    case incorrect
+}
+
+final class AnswerButton: UIButton {
+    
+    private let iconImageView = UIImageView()
+    
+    init(title: String, state: QuizAnswerState = .defaultChoice) {
+        super.init(frame: .zero)
+        setTitle(title, for: .normal)
+        setupUI()
+        setupConstraints()
+        applyState(state)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+private extension AnswerButton {
+    func setupUI() {
+        self.titleLabel?.font = UIFont(name: Font.regular.rawValue, size: 14)
+        self.layer.cornerRadius = 16
+        self.clipsToBounds = true
+        self.contentHorizontalAlignment = .left
+        self.titleEdgeInsets = UIEdgeInsets(top: 0, left: 52, bottom: 0, right: 0)
+        
+        iconImageView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(iconImageView)
+    }
+    
+    func setupConstraints() {
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.heightAnchor.constraint(equalToConstant: 52).isActive = true
+        
+        NSLayoutConstraint.activate([
+            iconImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            iconImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            iconImageView.widthAnchor.constraint(equalToConstant: 20),
+            iconImageView.heightAnchor.constraint(equalToConstant: 20),
+        ])
+    }
+}
+
+extension AnswerButton {
+    func applyState(_ state: QuizAnswerState) {
+        switch state {
+        case .defaultChoice:
+            backgroundColor = AppColors.lightGray
+            setTitleColor(AppColors.black, for: .normal)
+            iconImageView.image = UIImage(named: "defaultChoice")
+            
+        case .selected:
+            backgroundColor = .clear
+            setTitleColor(AppColors.darkPurple, for: .normal)
+            layer.borderColor = AppColors.darkPurple.cgColor
+            layer.borderWidth = 1
+            iconImageView.image = UIImage(named: "selected")
+            
+        case .correct:
+            backgroundColor = .clear
+            setTitleColor(AppColors.green, for: .normal)
+            layer.borderColor = AppColors.green.cgColor
+            layer.borderWidth = 1
+            iconImageView.image = UIImage(named: "correct")
+            
+        case .incorrect:
+            backgroundColor = .clear
+            setTitleColor(AppColors.red, for: .normal)
+            layer.borderColor = AppColors.red.cgColor
+            layer.borderWidth = 1
+            iconImageView.image = UIImage(named: "incorrect")
+        }
+    }
+}
