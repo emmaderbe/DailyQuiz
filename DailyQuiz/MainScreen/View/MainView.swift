@@ -3,13 +3,7 @@ import UIKit
 final class MainView: UIView {
     
     private let historyButton = HistoryButton(title: "История")
-    private let logoImage: UIImageView = {
-        let image = UIImageView()
-        image.image = UIImage(named: "logo")
-        image.contentMode = .scaleAspectFit
-        image.translatesAutoresizingMaskIntoConstraints = false
-        return image
-    }()
+    private let logoImage = ImageFactory.createLogoImage()
     private let backgroundView = BackgroundViewFactory.createBackView()
     private let verticalStack = StackFactory.createVerticalStack(with: 40)
     private let titleLabel = LabelFactory.createLabel(with: .bold, and: 28)
@@ -79,6 +73,8 @@ private extension MainView {
             
             loader.centerXAnchor.constraint(equalTo: centerXAnchor),
             loader.centerYAnchor.constraint(equalTo: centerYAnchor),
+            loader.heightAnchor.constraint(equalToConstant: 72),
+            loader.widthAnchor.constraint(equalTo: loader.heightAnchor),
             
             errorLabel.topAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: 24),
             errorLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 45),

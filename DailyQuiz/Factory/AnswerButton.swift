@@ -57,6 +57,7 @@ extension AnswerButton {
         case .defaultChoice:
             backgroundColor = AppColors.lightGray
             setTitleColor(AppColors.black, for: .normal)
+            layer.borderWidth = 0
             iconImageView.image = UIImage(named: "defaultChoice")
             
         case .selected:
