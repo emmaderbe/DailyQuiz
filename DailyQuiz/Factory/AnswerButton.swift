@@ -39,7 +39,8 @@ private extension AnswerButton {
     
     func setupConstraints() {
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.heightAnchor.constraint(equalToConstant: 52).isActive = true
+        self.heightAnchor.constraint(greaterThanOrEqualToConstant: 52).isActive = true
+        self.widthAnchor.constraint(greaterThanOrEqualToConstant: 280).isActive = true
         
         NSLayoutConstraint.activate([
             iconImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),

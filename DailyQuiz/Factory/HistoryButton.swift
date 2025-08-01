@@ -28,7 +28,7 @@ final class HistoryButton: UIButton {
     
     init(title: String) {
         super.init(frame: .zero)
-        setTitle(title, for: .normal)
+        textLabel.text = title
         setupUI()
         setupConstraints()
     }
@@ -42,7 +42,7 @@ final class HistoryButton: UIButton {
 private extension HistoryButton {
     func setupUI() {
         self.backgroundColor = AppColors.white
-        self.layer.cornerRadius = 24
+        self.layer.cornerRadius = 20
         self.clipsToBounds = true
 
         addSubview(stackView)
@@ -51,8 +51,10 @@ private extension HistoryButton {
     }
 
     func setupConstraints() {
+        self.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             heightAnchor.constraint(equalToConstant: 40),
+            widthAnchor.constraint(greaterThanOrEqualToConstant: 103),
             
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),

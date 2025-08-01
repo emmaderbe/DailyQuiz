@@ -13,7 +13,7 @@ final class CustomButton: UIButton {
     init(title: String, style: CustomButtonState = .active) {
         super.init(frame: .zero)
         
-        self.setTitle(title, for: .normal)
+        self.setTitle(title.uppercased(), for: .normal)
         setupUI()
         setupConstraints()
         applyStyle(style)
@@ -34,7 +34,8 @@ private extension CustomButton {
 
     func setupConstraints() {
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        self.heightAnchor.constraint(greaterThanOrEqualToConstant: 50).isActive = true
+        self.widthAnchor.constraint(greaterThanOrEqualToConstant: 280).isActive = true
     }
 }
 

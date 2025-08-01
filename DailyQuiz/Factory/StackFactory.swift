@@ -5,7 +5,7 @@ struct StackFactory {
        let stack = UIStackView()
         stack.axis = .vertical
         stack.spacing = spacing
-        stack.distribution = .equalSpacing
+        stack.distribution = .fill
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }
