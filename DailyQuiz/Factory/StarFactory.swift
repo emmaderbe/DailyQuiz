@@ -5,28 +5,68 @@ enum StarType {
     case inactive
 }
 
-struct StarFactory {
-    static func createStars(count: Int, max: Int = 5) -> UIStackView {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.spacing = 8
-        stack.alignment = .center
-        stack.distribution = .fillEqually
-        
-        for i in 0..<max {
-            let type: StarType = i < count ? .active : .inactive
-            let starView = makeStarView(type: type)
-            stack.addArrangedSubview(starView)
-        }
-        
-        return stack
+final class StarRatingView: UIView {
+    // MARK: - Private Properties
+    private let maxStars: Int
+    private var stars: [UIImageView] = []
+    private let stackView: UIStackView = StackFactory.createHorizontalStack(with: 8)
+    
+    // MARK: - Init
+    init(count: Int = 5) {
+        self.maxStars = count
+        super.init(frame: .zero)
+        setupView()
+        setupLayout()
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
-private extension StarFactory {
-    static func makeStarView(type: StarType) -> UIImageView {
+// MARK: - Public Method
+extension StarRatingView {
+    func setRating(_ activeCount: Int) {
+        for (index, star) in stars.enumerated() {
+            let type: StarType = index < activeCount ? .active : .inactive
+            star.image = setImage(for: type)
+        }
+    }
+}
+
+// MARK: - UI setup
+private extension StarRatingView {
+    func setupView() {
+        backgroundColor = .clear
+        addSubview(stackView)
+        
+        createStars()
+    }
+    
+    func setupLayout() {
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: topAnchor),
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+        ])
+    }
+}
+
+// MARK: - Create star
+private extension StarRatingView {
+    func createStars() {
+        for _ in 0..<maxStars {
+            let imageView = makeStarImageView(type: .inactive)
+            stars.append(imageView)
+            stackView.addArrangedSubview(imageView)
+        }
+    }
+    
+    func makeStarImageView(type: StarType) -> UIImageView {
         let imageView = UIImageView()
-        imageView.image = imageForType(type)
+        imageView.image = setImage(for: type)
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.widthAnchor.constraint(equalToConstant: 52).isActive = true
@@ -34,8 +74,7 @@ private extension StarFactory {
         return imageView
     }
     
-    
-    static func imageForType(_ type: StarType) -> UIImage? {
+    func setImage(for type: StarType) -> UIImage? {
         switch type {
         case .active:
             return UIImage(named: "starActive")
@@ -44,3 +83,5 @@ private extension StarFactory {
         }
     }
 }
+
+
