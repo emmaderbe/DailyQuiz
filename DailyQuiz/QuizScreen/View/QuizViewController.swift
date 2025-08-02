@@ -53,7 +53,11 @@ private extension QuizViewController {
 private extension QuizViewController {
     func setupViewModelBindings() {
         viewModel.onQuizFinished = { [weak self] in
-            print("Квиз завершён")
+            self?.viewModel.saveQuizResult()
+            guard let id = self?.viewModel.quizId else { return }
+            let resultsVC = ResultsViewController(quizId: id)
+            resultsVC.modalPresentationStyle = .fullScreen 
+            self?.present(resultsVC, animated: true)
         }
     }
     
