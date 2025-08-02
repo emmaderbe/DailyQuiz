@@ -2,7 +2,7 @@ import Foundation
 
 protocol MainViewModelProtocol {
     var onStateChanged: ((NetworkState) -> Void)? { get set }
-    var onSuccess: (() -> Void)? { get set }
+    var onSuccess: (([QuestionModel]) -> Void)? { get set }
     var onFailure: (() -> Void)? { get set }
 
     func startQuiz(category: String?,
@@ -16,13 +16,16 @@ enum NetworkState {
 
 final class MainViewModel: MainViewModelProtocol {
     private let networkService: QuizNetworkServiceProtocol
+    private let mapper: QuestionMapperProtocol
     
     var onStateChanged: ((NetworkState) -> Void)?
-    var onSuccess: (() -> Void)?
+    var onSuccess: (([QuestionModel]) -> Void)?
     var onFailure: (() -> Void)?
 
-    init(networkService: QuizNetworkServiceProtocol = QuizNetworkService()) {
+    init(networkService: QuizNetworkServiceProtocol = QuizNetworkService(),
+         mapper: QuestionMapperProtocol = QuestionMapper()) {
         self.networkService = networkService
+        self.mapper = mapper
     }
 }
 
@@ -35,8 +38,9 @@ extension MainViewModel {
                                  difficulty: difficulty) { [weak self] result in
             self?.onStateChanged?(.non)
             switch result {
-            case .success:
-                self?.onSuccess?()
+            case .success(let response):
+                let questions = self?.mapper.map(response.results) ?? []
+                self?.onSuccess?(questions)
             case .failure:
                 self?.onFailure?()
             }

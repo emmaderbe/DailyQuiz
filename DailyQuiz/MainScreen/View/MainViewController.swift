@@ -42,7 +42,6 @@ private extension MainViewController {
     
     func addTarger() {
         mainView.onStartQuizTapped = { [weak self] in
-            print("fdefd")
             self?.viewModel.startQuiz(category: nil,
                                       difficulty: nil)
         }
@@ -62,13 +61,14 @@ private extension MainViewController {
                 }
             }
         }
-
-        viewModel.onSuccess = { [weak self] in
+        
+        viewModel.onSuccess = { [weak self] questions in
             DispatchQueue.main.async {
-                print("Успешно")
+                let quizVC = QuizViewController(questions: questions)
+                self?.navigationController?.pushViewController(quizVC, animated: true)
             }
         }
-
+        
         viewModel.onFailure = { [weak self] in
             DispatchQueue.main.async {
                 self?.mainView.errorHidden(false)
