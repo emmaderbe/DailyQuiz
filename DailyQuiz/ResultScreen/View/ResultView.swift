@@ -2,17 +2,20 @@ import UIKit
 
 final class ResultsView: UIView {
     // MARK: - UI Components
-    private let titleLabel = LabelFactory.createLabel(with: .black, and: 32)
-    private let resultSummaryView = ResultSummaryView(starSize: CGSize(width: 52, height: 52),
+    private let titleLabel = LabelFactory.createLabel(with: .black,
+                                                      and: 32)
+    private let resultSummaryView = ResultSummaryView(starSize: CGSize(width: 52,
+                                                                       height: 52),
                                                       showButton: true)
     
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUI()
+        setupView()
         setupConstraints()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -20,8 +23,8 @@ final class ResultsView: UIView {
 
 // MARK: - UI setup
 private extension ResultsView {
-    func setupUI() {
-        backgroundColor = AppColors.primaryPurple
+    func setupView() {
+        self.backgroundColor = AppColors.primaryPurple
         titleLabel.textColor = AppColors.white
 
         

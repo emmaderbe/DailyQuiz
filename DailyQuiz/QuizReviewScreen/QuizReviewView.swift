@@ -13,9 +13,12 @@ final class QuizReviewView: UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    private let resultLabel = LabelFactory.createLabel(with: .black, and: 32)
-    private let resultSummaryView = ResultSummaryView(starSize: CGSize(width: 52, height: 52))
-    private let answerTitle = LabelFactory.createLabel(with: .black, and: 32)
+    private let resultLabel = LabelFactory.createLabel(with: .black,
+                                                       and: 32)
+    private let resultSummaryView = ResultSummaryView(starSize: CGSize(width: 52,
+                                                                       height: 52))
+    private let answerTitle = LabelFactory.createLabel(with: .black,
+                                                       and: 32)
     private let answerStack = StackFactory.createVerticalStack(with: 24)
     private let restartButton = CustomButton(title: "Начать заново",
                                              style: .white)
@@ -26,7 +29,7 @@ final class QuizReviewView: UIView {
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUI()
+        setupView()
         setupConstraints()
         addTarget()
     }
@@ -38,7 +41,7 @@ final class QuizReviewView: UIView {
 
 // MARK: - UI setup
 private extension QuizReviewView {
-    func setupUI() {
+    func setupView() {
         backgroundColor = AppColors.primaryPurple
         resultLabel.textColor = AppColors.white
         answerTitle.textColor = AppColors.white
@@ -55,20 +58,17 @@ private extension QuizReviewView {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            // scrollView привязан к self
             scrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
 
-            // contentView растянут внутри scrollView
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor), // важно!
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
 
-            // layout элементов внутри contentView
             resultLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 32),
             resultLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             
@@ -90,6 +90,7 @@ private extension QuizReviewView {
     }
 }
 
+// MARK: - Actions
 private extension QuizReviewView {
     func addTarget() {
         restartButton.addTarget(self, action: #selector(restartTapped), for: .touchUpInside)

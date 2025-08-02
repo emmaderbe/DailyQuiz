@@ -1,7 +1,7 @@
 import UIKit
 
 final class MainView: UIView {
-    
+    // MARK: - UI Components
     private let historyButton = HistoryButton(title: "История")
     private let logoImage = ImageFactory.createLogoImage()
     private let backgroundView = BackgroundViewFactory.createBackView()
@@ -16,16 +16,17 @@ final class MainView: UIView {
         indicator.translatesAutoresizingMaskIntoConstraints = false
         return indicator
     }()
-    
     private let errorLabel = LabelFactory.createLabel(with: .bold, and: 20)
     
+    // MARK: - Public callback
     var onStartQuizTapped: (() -> Void)?
     var onHistoryTapped: (() -> Void)?
     
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = AppColors.primaryPurple
-        setupUI()
+        setupView()
         setupConstraints()
         addTarger()
     }
@@ -37,14 +38,16 @@ final class MainView: UIView {
 }
 
 private extension MainView {
-    func setupUI() {
+    func setupView() {
         self.backgroundColor = AppColors.primaryPurple
         errorLabel.textColor = AppColors.white
         errorLabel.isHidden = true
         
         [historyButton,
          logoImage,
-         backgroundView, loader, errorLabel].forEach( { addSubview($0) } )
+         backgroundView,
+         loader,
+         errorLabel].forEach( { addSubview($0) } )
         
         [verticalStack].forEach( { backgroundView.addSubview($0) } )
         
@@ -84,6 +87,7 @@ private extension MainView {
     }
 }
 
+// MARK: - Actions
 private extension MainView {
     func addTarger() {
         startQuizButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
@@ -99,8 +103,10 @@ private extension MainView {
     }
 }
 
+// MARK: - Public functions
 extension MainView {
-    func configureView(with title: String, and message: String) {
+    func configureView(with title: String,
+                       and message: String) {
         titleLabel.text = title
         errorLabel.text = message
     }
@@ -109,6 +115,7 @@ extension MainView {
         errorLabel.isHidden = status
     }
     
+    // Скрытие или показ лоудера совместно с частью интерфейса в зависимости от состояния экрана
     func showLoader(_ status: Bool) {
         loader.isHidden = !status
         if status {
@@ -117,7 +124,8 @@ extension MainView {
             loader.stopAnimating()
         }
         
-        [historyButton, backgroundView].forEach { $0.isHidden = status }
+        [historyButton,
+         backgroundView].forEach { $0.isHidden = status }
     }
 
 }

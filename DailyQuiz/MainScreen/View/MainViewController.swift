@@ -1,8 +1,10 @@
 import UIKit
 
 class MainViewController: UIViewController {
+    // MARK: - Private Properties
     private let mainView = MainView()
     
+    // MARK: - Lifecycle
     override func loadView() {
         self.view = mainView
     }
@@ -12,6 +14,7 @@ class MainViewController: UIViewController {
     }
 }
 
+// MARK: - UI Setup
 private extension MainViewController {
     func setupView() {
         setupText()

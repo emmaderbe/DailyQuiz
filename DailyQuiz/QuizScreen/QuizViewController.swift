@@ -1,6 +1,7 @@
 import UIKit
 
 final class QuizViewController: UIViewController {
+    // MARK: - Private properties
     private let quizView = QuizView()
     
     private let questionText = "Как переводится слово «apple»?"
@@ -9,6 +10,7 @@ final class QuizViewController: UIViewController {
     
     private var selectedIndex: Int?
     
+    // MARK: - Lifecycle
     override func loadView() {
         view = quizView
     }
@@ -21,6 +23,7 @@ final class QuizViewController: UIViewController {
     }
 }
 
+// MARK: - Bindings
 private extension QuizViewController {
     func setupBindings() {
         quizView.onAnswerSelected = { [weak self] index in

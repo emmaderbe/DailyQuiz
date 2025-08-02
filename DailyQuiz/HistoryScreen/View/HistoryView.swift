@@ -1,7 +1,6 @@
 import UIKit
 
 final class HistoryView: UIView {
-    
     // MARK: - UI components
     private let titleLabel = LabelFactory.createLabel(with: .black, and: 32)
     private let historyEmptyView = HistoryEmptyView()
@@ -21,7 +20,7 @@ final class HistoryView: UIView {
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUI()
+        setupView()
         setupConstraints()
         startTapped()
         
@@ -35,13 +34,14 @@ final class HistoryView: UIView {
 
 // MARK: - UI setup
 private extension HistoryView {
-    func setupUI() {
+    func setupView() {
         backgroundColor = AppColors.primaryPurple
         titleLabel.textColor = AppColors.white
         
         [titleLabel,
          historyEmptyView,
-         logoImage, collectionView].forEach { addSubview($0) }
+         logoImage,
+         collectionView].forEach { addSubview($0) }
     }
     
     func setupConstraints() {

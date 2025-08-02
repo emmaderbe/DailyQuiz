@@ -10,7 +10,7 @@ final class HistoryEmptyView: UIView {
     private let startButton = CustomButton(title: "Начать викторину",
                                            style: .active)
     
-    // MARK: - Public Callback
+    // MARK: - Public сallback
     var onStartTapped: (() -> Void)?
     
     // MARK: - Init
@@ -18,14 +18,15 @@ final class HistoryEmptyView: UIView {
         super.init(frame: frame)
         setupUI()
         setupConstraints()
-        startButton.addTarget(self, action: #selector(startTapped), for: .touchUpInside)
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
 
+// MARK: - UI setup
 private extension HistoryEmptyView {
     func setupUI() {
         addSubview(backgroundView)
@@ -51,12 +52,19 @@ private extension HistoryEmptyView {
             startButton.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -32)
         ])
     }
+}
 
+// MARK: - Actions
+private extension HistoryEmptyView {
+    func addTarget() {
+        startButton.addTarget(self, action: #selector(startTapped), for: .touchUpInside)
+    }
     @objc func startTapped() {
         onStartTapped?()
     }
 }
 
+// MARK: - Public functions
 extension HistoryEmptyView {
     func setupMessage(with text: String) {
         messageLabel.text = text

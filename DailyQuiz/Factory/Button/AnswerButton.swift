@@ -8,10 +8,12 @@ enum QuizAnswerState {
 }
 
 final class AnswerButton: UIButton {
-    
+    // MARK: - UI сomponents
     private let iconImageView = UIImageView()
     
-    init(title: String, state: QuizAnswerState = .defaultChoice) {
+    // MARK: - Init
+    init(title: String,
+         state: QuizAnswerState = .defaultChoice) {
         super.init(frame: .zero)
         setTitle(title, for: .normal)
         setupUI()
@@ -25,24 +27,30 @@ final class AnswerButton: UIButton {
     }
 }
 
+// MARK: - UI setup
 private extension AnswerButton {
     func setupUI() {
-        self.titleLabel?.font = UIFont(name: Font.regular.rawValue, size: 14)
+        self.titleLabel?.font = UIFont(name: Font.regular.rawValue,
+                                       size: 14)
         self.layer.cornerRadius = 16
         self.clipsToBounds = true
         self.contentHorizontalAlignment = .left
-        self.titleEdgeInsets = UIEdgeInsets(top: 0, left: 52, bottom: 0, right: 0)
-        
-        iconImageView.translatesAutoresizingMaskIntoConstraints = false
+        self.titleEdgeInsets = UIEdgeInsets(top: 0,
+                                            left: 52,
+                                            bottom: 0,
+                                            right: 0)
+
         addSubview(iconImageView)
     }
     
     func setupConstraints() {
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.heightAnchor.constraint(greaterThanOrEqualToConstant: 52).isActive = true
-        self.widthAnchor.constraint(greaterThanOrEqualToConstant: 280).isActive = true
+        iconImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
+            heightAnchor.constraint(greaterThanOrEqualToConstant: 52),
+            widthAnchor.constraint(greaterThanOrEqualToConstant: 280),
+            
             iconImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             iconImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
             iconImageView.widthAnchor.constraint(equalToConstant: 20),
@@ -51,7 +59,9 @@ private extension AnswerButton {
     }
 }
 
+// MARK: - Public functions
 extension AnswerButton {
+    // Изменяет визуальный стиль кнопки в зависимости от состояния
     func applyState(_ state: QuizAnswerState) {
         switch state {
         case .defaultChoice:

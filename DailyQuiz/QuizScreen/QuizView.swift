@@ -4,12 +4,16 @@ final class QuizView: UIView {
     // MARK: - UI сomponents
     private let logoImage = ImageFactory.createLogoImage()
     private let backroundView = BackgroundViewFactory.createBackView()
-    private let progressLabel = LabelFactory.createLabel(with: .bold, and: 16)
-    private let questionLabel = LabelFactory.createLabel(with: .semibold, and: 18)
+    private let progressLabel = LabelFactory.createLabel(with: .bold,
+                                                         and: 16)
+    private let questionLabel = LabelFactory.createLabel(with: .semibold,
+                                                         and: 18)
     private let backStack = StackFactory.createVerticalStack(with: 24)
     private let answersStack = StackFactory.createVerticalStack(with: 16)
-    private let nextButton = CustomButton(title: "Далее", style: .disabled)
-    private let warningLabel = LabelFactory.createLabel(with: .regular, and: 10)
+    private let nextButton = CustomButton(title: "Далее",
+                                          style: .disabled)
+    private let warningLabel = LabelFactory.createLabel(with: .regular,
+                                                        and: 10)
     
     // MARK: - Public сallbacks
     var onAnswerSelected: ((Int) -> Void)?
@@ -22,7 +26,7 @@ final class QuizView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = AppColors.primaryPurple
-        setupUI()
+        setupView()
         setupConstraints()
     }
     
@@ -34,11 +38,10 @@ final class QuizView: UIView {
 
 // MARK: - UI setup
 private extension QuizView {
-    func setupUI() {
+    func setupView() {
         self.backgroundColor = AppColors.primaryPurple
         progressLabel.textColor = AppColors.secondaryPurple
         warningLabel.textColor = AppColors.white
-        warningLabel.text = "Вернуться к предыдущим вопросам нельзя"
         
         [logoImage,
          backroundView,
@@ -48,7 +51,8 @@ private extension QuizView {
         
         [progressLabel,
          questionLabel,
-         answersStack, nextButton].forEach( {backStack.addArrangedSubview($0)} )
+         answersStack,
+         nextButton].forEach( {backStack.addArrangedSubview($0)} )
         
         backStack.setCustomSpacing(67, after: answersStack)
         
@@ -79,7 +83,8 @@ private extension QuizView {
 
 // MARK: - Public functions
 extension QuizView {
-    func setQuestion(question: String, progress: String) {
+    func setQuestion(question: String,
+                     progress: String) {
         questionLabel.text = question
         progressLabel.text = progress
     }
@@ -113,7 +118,7 @@ extension QuizView {
     }
 }
 
-// MARK: - UI Setup
+// MARK: - Answer state updates
 private extension QuizView {
     // Удаление всех кнопок с вариантами ответов
     func clearAnswers() {
@@ -139,14 +144,12 @@ private extension QuizView {
 
 // MARK: - Actions
 private extension QuizView {
-    // Обработка выбора ответа при нажатии на кнопку
     @objc func answerTapped(_ sender: UIButton) {
         let selectedIndex = sender.tag
         updateButton(at: selectedIndex)
         onAnswerSelected?(selectedIndex)
     }
     
-    // Обработка нажатия на кнопку "Далее"
     @objc func nextTapped() {
         onNextTapped?()
     }

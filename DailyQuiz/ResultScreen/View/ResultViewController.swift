@@ -1,9 +1,10 @@
 import UIKit
 
 final class ResultsViewController: UIViewController {
-    
+    // MARK: - Private properties
     private let resultsView = ResultsView()
 
+    // MARK: - Lifecycle
     override func loadView() {
         view = resultsView
     }

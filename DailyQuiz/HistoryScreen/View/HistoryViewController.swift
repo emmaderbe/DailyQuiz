@@ -27,6 +27,7 @@ final class HistoryViewController: UIViewController {
     }
 }
 
+// MARK: - UI setup
 private extension HistoryViewController {
     func setupView() {
         setupAction()

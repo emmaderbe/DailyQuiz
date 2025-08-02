@@ -1,5 +1,6 @@
 import UIKit
 
+// MARK: - CustomButtonState
 enum CustomButtonState {
     case disabled
     case active
@@ -7,12 +8,13 @@ enum CustomButtonState {
 }
 
 final class CustomButton: UIButton {
-
+    // MARK: - Private properties
     private var currentStyle: CustomButtonState = .active
 
-    init(title: String, style: CustomButtonState = .active) {
+    // MARK: - Init
+    init(title: String,
+         style: CustomButtonState = .active) {
         super.init(frame: .zero)
-        
         self.setTitle(title.uppercased(), for: .normal)
         setupUI()
         setupConstraints()
@@ -25,9 +27,11 @@ final class CustomButton: UIButton {
     }
 }
 
+// MARK: - UI setup
 private extension CustomButton {
     func setupUI() {
-        self.titleLabel?.font = UIFont(name: Font.black.rawValue, size: 16)
+        self.titleLabel?.font = UIFont(name: Font.black.rawValue,
+                                       size: 16)
         self.layer.cornerRadius = 16
         self.clipsToBounds = true
     }
@@ -39,7 +43,9 @@ private extension CustomButton {
     }
 }
 
+// MARK: - Public functions
 extension CustomButton {
+    // Изменяет визуальный стиль к кнопке в зависимости от её состояния
     func applyStyle(_ style: CustomButtonState) {
         self.currentStyle = style
         

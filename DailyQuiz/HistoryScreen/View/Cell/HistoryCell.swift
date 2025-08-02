@@ -1,12 +1,15 @@
 import UIKit
 
 final class HistoryCell: UICollectionViewCell {
-    
     // MARK: - UI Components
-    private let titleLabel = LabelFactory.createLabel(with: .bold, and: 24)
-    private let dateLabel = LabelFactory.createLabel(with: .regular, and: 12)
-    private let timeLabel = LabelFactory.createLabel(with: .regular, and: 12)
-    private let starRatingView = StarRatingView(starSize: CGSize(width: 16, height: 16))
+    private let titleLabel = LabelFactory.createLabel(with: .bold,
+                                                      and: 24)
+    private let dateLabel = LabelFactory.createLabel(with: .regular,
+                                                     and: 12)
+    private let timeLabel = LabelFactory.createLabel(with: .regular,
+                                                     and: 12)
+    private let starRatingView = StarRatingView(starSize: CGSize(width: 16,
+                                                                 height: 16))
     private let firstVertStack = StackFactory.createVerticalStack(with: 12)
     private let secondtVertStack = StackFactory.createVerticalStack(with: 12)
     private let horizontalStack = StackFactory.createHorizontalStack(with: 12)
@@ -14,17 +17,19 @@ final class HistoryCell: UICollectionViewCell {
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUI()
+        setupView()
         setupConstraints()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
 
+// MARK: - UI setup
 private extension HistoryCell {
-    func setupUI() {
+    func setupView() {
         contentView.backgroundColor = AppColors.white
         titleLabel.textColor = AppColors.darkPurple
         contentView.layer.cornerRadius = 40

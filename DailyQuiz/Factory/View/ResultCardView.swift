@@ -3,9 +3,11 @@ import UIKit
 final class ResultCardView: UIView {
     // MARK: - UI Components
     private let backgroundView = BackgroundViewFactory.createBackView()
-    private let progressLabel = LabelFactory.createLabel(with: .bold, and: 16)
+    private let progressLabel = LabelFactory.createLabel(with: .bold,
+                                                         and: 16)
     private let resultIcon = ImageFactory.createIcon(with: .incorrect)
-    private let questionLabel = LabelFactory.createLabel(with: .bold, and: 18)
+    private let questionLabel = LabelFactory.createLabel(with: .bold,
+                                                         and: 18)
     private let backVerticalStack = StackFactory.createVerticalStack(with: 24)
     private let backHorizontalStack = StackFactory.createHorizontalStack(with: 24)
     private let answersStack = StackFactory.createVerticalStack(with: 16)
@@ -17,11 +19,13 @@ final class ResultCardView: UIView {
         setupConstraints()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
 
+// MARK: - UI setup
 private extension ResultCardView {
     func setupUI() {
         backgroundColor = .clear
@@ -58,7 +62,7 @@ private extension ResultCardView {
     }
 }
 
-// MARK: - Public Configuration
+// MARK: - Public configuration
 extension ResultCardView {
     func configure(
         progressText: String,

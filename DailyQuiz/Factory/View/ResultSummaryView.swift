@@ -1,19 +1,23 @@
 import UIKit
 
 final class ResultSummaryView: UIView {
-    // MARK: - UI Components
+    // MARK: - UI components
     private let backgroundView = BackgroundViewFactory.createBackView()
     private let resultStack = StackFactory.createVerticalStack(with: 24)
     private let starImages: StarRatingView
-    private let scoreLabel = LabelFactory.createLabel(with: .bold, and: 16)
-    private let titleResultLabel  = LabelFactory.createLabel(with: .bold, and: 24)
-    private let descriptionResultLabel  = LabelFactory.createLabel(with: .regular, and: 16)
+    private let scoreLabel = LabelFactory.createLabel(with: .bold,
+                                                      and: 16)
+    private let titleResultLabel  = LabelFactory.createLabel(with: .bold,
+                                                             and: 24)
+    private let descriptionResultLabel  = LabelFactory.createLabel(with: .regular,
+                                                                   and: 16)
     private let textStack = StackFactory.createVerticalStack(with: 14)
     private let restartButton = CustomButton(title: "Начать заново")
     
+    // MARK: - Private propetries
     private var showButton: Bool
     
-    // MARK: - Public Callback
+    // MARK: - Public callback
     var onStartTapped: (() -> Void)?
     
     // MARK: - Init
@@ -24,18 +28,20 @@ final class ResultSummaryView: UIView {
         super.init(frame: .zero)
         setupUI()
         setupConstraints()
+        addTarget()
         hideButton()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
 
+// MARK: - UI setup
 private extension ResultSummaryView {
     func setupUI() {
-        scoreLabel.textColor = AppColors.yellow
-        restartButton.addTarget(self, action: #selector(startTapped), for: .touchUpInside)
+        self.scoreLabel.textColor = AppColors.yellow
         
         [backgroundView].forEach({ addSubview($0)} )
         
@@ -67,17 +73,26 @@ private extension ResultSummaryView {
         ])
     }
     
-    @objc func startTapped() {
-        onStartTapped?()
-    }
-    
     func hideButton() {
         restartButton.isHidden = !showButton
     }
 }
 
+private extension ResultSummaryView {
+    func addTarget() {
+        restartButton.addTarget(self, action: #selector(startTapped), for: .touchUpInside)
+    }
+    
+    @objc func startTapped() {
+        onStartTapped?()
+    }
+}
+
 extension ResultSummaryView {
-    func configure(stars: Int, score: String, title: String, description: String) {
+    func configure(stars: Int,
+                   score: String,
+                   title: String,
+                   description: String) {
         starImages.setRating(stars)
         scoreLabel.text = score
         titleResultLabel.text = title

@@ -1,7 +1,7 @@
 import UIKit
 
 final class HistoryButton: UIButton {
-    
+    // MARK: - UI сomponents
     private let stackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
@@ -26,6 +26,7 @@ final class HistoryButton: UIButton {
         return label
     }()
     
+    // MARK: - Init
     init(title: String) {
         super.init(frame: .zero)
         textLabel.text = title
@@ -39,6 +40,7 @@ final class HistoryButton: UIButton {
     }
 }
 
+// MARK: - UI setup
 private extension HistoryButton {
     func setupUI() {
         self.backgroundColor = AppColors.white
