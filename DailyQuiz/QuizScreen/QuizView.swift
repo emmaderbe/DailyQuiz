@@ -24,7 +24,6 @@ final class QuizView: UIView {
         backgroundColor = AppColors.primaryPurple
         setupUI()
         setupConstraints()
-        nextButton.addTarget(self, action: #selector(nextTapped), for: .touchUpInside)
     }
     
     @available(*, unavailable)
@@ -52,6 +51,8 @@ private extension QuizView {
          answersStack, nextButton].forEach( {backStack.addArrangedSubview($0)} )
         
         backStack.setCustomSpacing(67, after: answersStack)
+        
+        nextButton.addTarget(self, action: #selector(nextTapped), for: .touchUpInside)
     }
     
     func setupConstraints() {

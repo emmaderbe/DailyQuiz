@@ -10,18 +10,11 @@ final class ResultsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupBindings()
         configureWithMockData()
     }
 }
 
 private extension ResultsViewController {
-    func setupBindings() {
-        resultsView.onRestartTapped = { [weak self] in
-            print("Кнопка 'Начать заново' нажата")
-        }
-    }
-
     func configureWithMockData() {
         resultsView.configure(
             resultTitle: "Отличный результат!",
