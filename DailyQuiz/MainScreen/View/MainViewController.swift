@@ -1,8 +1,20 @@
 import UIKit
 
 class MainViewController: UIViewController {
-    // MARK: - Private Properties
+    // MARK: - Private properties
     private let mainView = MainView()
+    private var viewModel: MainViewModelProtocol
+    
+    // MARK: - Init
+    init(viewModel: MainViewModelProtocol = MainViewModel()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Lifecycle
     override func loadView() {
@@ -11,6 +23,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        setupBindings()
     }
 }
 
@@ -19,7 +32,7 @@ private extension MainViewController {
     func setupView() {
         setupText()
         mainView.showLoader(false)
-        addBttn()
+        addTarger()
     }
     
     func setupText() {
@@ -27,29 +40,39 @@ private extension MainViewController {
                                and: "Ошибка! Попробуйте ещё раз")
     }
     
-    func addBttn() {
+    func addTarger() {
         mainView.onStartQuizTapped = { [weak self] in
-              self?.startQuizFlow()
-          }
+            print("fdefd")
+            self?.viewModel.startQuiz(category: nil,
+                                      difficulty: nil)
+        }
     }
 }
 
 private extension MainViewController {
-    func startQuizFlow() {
-        mainView.errorHidden(true)
-        mainView.showLoader(true)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-            guard let self = self else { return }
-            let success = Bool.random()
-            self.mainView.showLoader(false)
+    func setupBindings() {
+        viewModel.onStateChanged = { [weak self] state in
+            DispatchQueue.main.async {
+                switch state {
+                case .non:
+                    self?.mainView.showLoader(false)
+                case .loading:
+                    self?.mainView.errorHidden(true)
+                    self?.mainView.showLoader(true)
+                }
+            }
+        }
 
-            if success {
-                print("sucess")
-            } else {
-                self.mainView.errorHidden(false)
+        viewModel.onSuccess = { [weak self] in
+            DispatchQueue.main.async {
+                print("Успешно")
+            }
+        }
+
+        viewModel.onFailure = { [weak self] in
+            DispatchQueue.main.async {
+                self?.mainView.errorHidden(false)
             }
         }
     }
-
 }
-
