@@ -8,12 +8,14 @@ enum StarType {
 final class StarRatingView: UIView {
     // MARK: - Private Properties
     private let maxStars: Int
+    private let starSize: CGSize
     private var stars: [UIImageView] = []
     private let stackView: UIStackView = StackFactory.createHorizontalStack(with: 8)
     
     // MARK: - Init
-    init(count: Int = 5) {
+    init(count: Int = 5, starSize: CGSize) {
         self.maxStars = count
+        self.starSize = starSize
         super.init(frame: .zero)
         setupView()
         setupLayout()
@@ -69,8 +71,8 @@ private extension StarRatingView {
         imageView.image = setImage(for: type)
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.widthAnchor.constraint(equalToConstant: 52).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: 52).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: starSize.width).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: starSize.height).isActive = true
         return imageView
     }
     

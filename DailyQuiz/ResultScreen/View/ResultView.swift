@@ -5,7 +5,7 @@ final class ResultsView: UIView {
     private let titleLabel = LabelFactory.createLabel(with: .black, and: 32)
     private let backgroundView = BackgroundViewFactory.createBackView()
     private let resultStack = StackFactory.createVerticalStack(with: 24)
-    private let starImages = StarRatingView()
+    private let starImages = StarRatingView(starSize: CGSize(width: 52, height: 52))
     private let scoreLabel = LabelFactory.createLabel(with: .bold, and: 16)
     private let textStack = StackFactory.createVerticalStack(with: 14)
     private let titleResultLabel  = LabelFactory.createLabel(with: .bold, and: 24)
