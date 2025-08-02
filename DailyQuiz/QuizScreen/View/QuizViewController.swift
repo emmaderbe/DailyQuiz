@@ -26,14 +26,38 @@ final class QuizViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupBindings()
+        setupView()
+    }
+}
+
+private extension QuizViewController {
+    func setupView() {
+        navigationItem.hidesBackButton = true
+        setupViewModelBindings()
+        setupViewBindings()
         showQuestion()
+    }
+    
+    func showQuestion() {
+        guard let displayModel = try? viewModel.getDisplayModel() else { return }
+        
+        quizView.setText(question: displayModel.questionText,
+                         progress: displayModel.progressText,
+                         warning: "Вернуться к предыдущим вопросам нельзя")
+        quizView.setAnswers(displayModel.answerOptions)
+        selectedIndex = nil
     }
 }
 
 // MARK: - Bindings
 private extension QuizViewController {
-    func setupBindings() {
+    func setupViewModelBindings() {
+        viewModel.onQuizFinished = { [weak self] in
+            print("Квиз завершён")
+        }
+    }
+    
+    func setupViewBindings() {
         quizView.onAnswerSelected = { [weak self] index in
             self?.selectedIndex = index
         }
@@ -53,17 +77,8 @@ private extension QuizViewController {
             }
         }
         
-        viewModel.onQuizFinished = { [weak self] in
-            print("Квиз завершён")
+        quizView.onBackTapped = { [weak self] in
+            self?.navigationController?.popViewController(animated: true)
         }
-    }
-    
-    func showQuestion() {
-        guard let displayModel = try? viewModel.getDisplayModel() else { return }
-        
-        quizView.setQuestion(question: displayModel.questionText,
-                             progress: displayModel.progressText)
-        quizView.setAnswers(displayModel.answerOptions)
-        selectedIndex = nil
     }
 }

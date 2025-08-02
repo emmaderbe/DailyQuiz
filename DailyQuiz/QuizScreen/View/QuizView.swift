@@ -2,6 +2,8 @@ import UIKit
 
 final class QuizView: UIView {
     // MARK: - UI сomponents
+    private let backButton = BackButton.createBackButton(target: nil,
+                                                         action: #selector(backTapped))
     private let logoImage = ImageFactory.createLogoImage()
     private let backroundView = BackgroundViewFactory.createBackView()
     private let progressLabel = LabelFactory.createLabel(with: .bold,
@@ -18,6 +20,7 @@ final class QuizView: UIView {
     // MARK: - Public сallbacks
     var onAnswerSelected: ((Int) -> Void)?
     var onNextTapped: (() -> Void)?
+    var onBackTapped: (() -> Void)?
     
     // MARK: - Private properties
     private var answerButtons: [AnswerButton] = []
@@ -43,7 +46,8 @@ private extension QuizView {
         progressLabel.textColor = AppColors.secondaryPurple
         warningLabel.textColor = AppColors.white
         
-        [logoImage,
+        [backButton,
+         logoImage,
          backroundView,
          warningLabel].forEach { addSubview($0) }
         
@@ -61,10 +65,15 @@ private extension QuizView {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
+            backButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 26),
+            backButton.topAnchor.constraint(equalTo: logoImage.topAnchor),
+            backButton.widthAnchor.constraint(equalToConstant: 24),
+            backButton.heightAnchor.constraint(equalToConstant: 24),
+            
             logoImage.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 35),
             logoImage.centerXAnchor.constraint(equalTo: centerXAnchor),
-            logoImage.widthAnchor.constraint(greaterThanOrEqualToConstant: 180),
-            logoImage.heightAnchor.constraint(greaterThanOrEqualToConstant: 40),
+            logoImage.widthAnchor.constraint(equalToConstant: 180),
+            logoImage.heightAnchor.constraint(equalToConstant: 40),
             
             backroundView.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: 40),
             backroundView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 26),
@@ -83,10 +92,12 @@ private extension QuizView {
 
 // MARK: - Public functions
 extension QuizView {
-    func setQuestion(question: String,
-                     progress: String) {
+    func setText(question: String,
+                 progress: String,
+                 warning: String) {
         questionLabel.text = question
         progressLabel.text = progress
+        warningLabel.text = warning
     }
     
     // Создание кнопок с вариантами ответа
@@ -152,6 +163,10 @@ private extension QuizView {
     
     @objc func nextTapped() {
         onNextTapped?()
+    }
+    
+    @objc func backTapped() {
+        onBackTapped?()
     }
 }
 
