@@ -2,6 +2,8 @@ import UIKit
 
 final class HistoryView: UIView {
     // MARK: - UI components
+    private let backButton = BackButton.createBackButton(target: nil,
+                                                         action: #selector(backTapped))
     private let titleLabel = LabelFactory.createLabel(with: .black, and: 32)
     private let historyEmptyView = HistoryEmptyView()
     private let logoImage = ImageFactory.createLogoImage()
@@ -17,6 +19,7 @@ final class HistoryView: UIView {
     // MARK: - Public callback
     var onStartTapped: (() -> Void)?
     var onBackTapped: (() -> Void)?
+    
     
     // MARK: - Init
     override init(frame: CGRect) {
@@ -39,7 +42,7 @@ private extension HistoryView {
         backgroundColor = AppColors.primaryPurple
         titleLabel.textColor = AppColors.white
         
-        [titleLabel,
+        [backButton, titleLabel,
          collectionView,
          historyEmptyView,
          logoImage,
@@ -51,6 +54,11 @@ private extension HistoryView {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
+            backButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 26),
+            backButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            backButton.widthAnchor.constraint(equalToConstant: 24),
+            backButton.heightAnchor.constraint(equalToConstant: 24),
+            
             titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 32),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
@@ -58,7 +66,6 @@ private extension HistoryView {
             historyEmptyView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 40),
             historyEmptyView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             historyEmptyView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            historyEmptyView.bottomAnchor.constraint(equalTo: logoImage.topAnchor, constant: -338),
             
             logoImage.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -76),
             logoImage.centerXAnchor.constraint(equalTo: centerXAnchor),
@@ -92,7 +99,7 @@ private extension HistoryView {
                 heightDimension: .fractionalHeight(1.0)
             )
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+            item.contentInsets = NSDirectionalEdgeInsets.zero
             
             let groupSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
@@ -117,6 +124,10 @@ extension HistoryView {
         collectionView.dataSource = dataSource
     }
     
+    func setupDelegate(_ delegate: HistoryDelegate) {
+        collectionView.delegate = delegate
+    }
+    
     func reloadData() {
         collectionView.reloadData()
     }
@@ -133,6 +144,7 @@ extension HistoryView {
         historyEmptyView.isHidden = !isEmpty
         logoImage.isHidden = !isEmpty
 
+        backButton.isHidden = isEmpty
         collectionView.isHidden = isEmpty
         collectionView.isUserInteractionEnabled = !isEmpty
     }

@@ -80,6 +80,5 @@ extension QuizViewModel {
             questions: questions,
             selectedAnswers: selectedAnswers
         )
-        print("✅ Сохраняем сессию с ID: \(id), \(correctAnswers) из \(questions.count) правильных")
     }
 }

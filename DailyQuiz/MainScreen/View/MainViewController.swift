@@ -65,7 +65,6 @@ private extension MainViewController {
 private extension MainViewController {
     func setupBindings() {
         viewModel.onStateChanged = { [weak self] state in
-            DispatchQueue.main.async {
                 switch state {
                 case .non:
                     self?.mainView.showLoader(false)
@@ -73,20 +72,15 @@ private extension MainViewController {
                     self?.mainView.errorHidden(true)
                     self?.mainView.showLoader(true)
                 }
-            }
         }
         
         viewModel.onSuccess = { [weak self] questions in
-            DispatchQueue.main.async {
                 let quizVC = QuizViewController(questions: questions)
                 self?.navigationController?.pushViewController(quizVC, animated: true)
-            }
         }
         
         viewModel.onFailure = { [weak self] in
-            DispatchQueue.main.async {
                 self?.mainView.errorHidden(false)
-            }
         }
     }
 }

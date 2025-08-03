@@ -30,19 +30,20 @@ final class MainViewModel: MainViewModelProtocol {
 }
 
 extension MainViewModel {
-    func startQuiz(category: String?,
-                   difficulty: String?) {
+    func startQuiz(category: String?, difficulty: String?) {
         onStateChanged?(.loading)
 
         networkService.fetchQuiz(category: category,
                                  difficulty: difficulty) { [weak self] result in
-            self?.onStateChanged?(.non)
-            switch result {
-            case .success(let response):
-                let questions = self?.mapper.map(response.results) ?? []
-                self?.onSuccess?(questions)
-            case .failure:
-                self?.onFailure?()
+            DispatchQueue.main.async {
+                self?.onStateChanged?(.non)
+                switch result {
+                case .success(let response):
+                    let questions = self?.mapper.map(response.results) ?? []
+                    self?.onSuccess?(questions)
+                case .failure:
+                    self?.onFailure?()
+                }
             }
         }
     }

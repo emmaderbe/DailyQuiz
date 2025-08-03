@@ -3,7 +3,7 @@ import UIKit
 final class HistoryEmptyView: UIView {
     // MARK: - UI Components
     private let backgroundView = BackgroundViewFactory.createSmallBackView()
-    
+    private let stack = StackFactory.createVerticalStack(with: 40)
     private let messageLabel = LabelFactory.createLabel(with: .regular,
                                                         and: 20)
     
@@ -31,9 +31,9 @@ final class HistoryEmptyView: UIView {
 private extension HistoryEmptyView {
     func setupUI() {
         addSubview(backgroundView)
-        
+        backgroundView.addSubview(stack)
         [messageLabel,
-         startButton].forEach { backgroundView.addSubview($0) }
+         startButton].forEach { stack.addArrangedSubview($0) }
     }
 
     func setupConstraints() {
@@ -44,13 +44,10 @@ private extension HistoryEmptyView {
             backgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
             backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor),
 
-            messageLabel.topAnchor.constraint(equalTo: backgroundView.topAnchor, constant: 32),
-            messageLabel.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor, constant: 32),
-            messageLabel.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -32),
-            
-            startButton.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: 40),
-            startButton.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor),
-            startButton.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -32)
+            stack.topAnchor.constraint(equalTo: backgroundView.topAnchor, constant: 32),
+            stack.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor, constant: 32),
+            stack.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -32),
+            stack.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -32)
         ])
     }
 }

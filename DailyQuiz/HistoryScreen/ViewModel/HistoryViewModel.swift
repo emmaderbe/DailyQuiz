@@ -21,6 +21,7 @@ extension HistoryViewModel {
         
         let models = sessions.map {
             QuizResultModel(
+                id: Int($0.id),
                 title: "Quiz \($0.id)",
                 date: $0.date ?? Date(),
                 stars: Int($0.correctAnswers)

@@ -57,10 +57,7 @@ private extension HistoryCell {
         ])
     }
     
-    func editStacks() {
-        horizontalStack.distribution = .equalSpacing
-        horizontalStack.alignment = .center
-        
+    func editStacks() {        
         firstVertStack.alignment = .leading
         secondtVertStack.alignment = .trailing
     }

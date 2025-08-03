@@ -1,13 +1,15 @@
 import Foundation
 
 extension QuestionEntity {
-    var decodedAnswers: [String] {
-        guard let jsonString = answers,
-              let data = jsonString.data(using: .utf8),
-              let decoded = try? JSONDecoder().decode([String].self, from: data) else {
+    static func decodeAnswers(_ string: String?) -> [String] {
+        guard let string = string,
+              let data = string.data(using: .utf8) else { return [] }
+        do {
+            return try JSONDecoder().decode([String].self, from: data)
+        } catch {
+            print("Decode error:", error)
             return []
         }
-        return decoded
     }
 }
 

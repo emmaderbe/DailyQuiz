@@ -1,6 +1,7 @@
 import Foundation
 
 struct QuizResultModel {
+    let id: Int
     let title: String
     let date: Date
     let stars: Int
