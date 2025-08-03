@@ -18,6 +18,7 @@ final class HistoryEmptyView: UIView {
         super.init(frame: frame)
         setupUI()
         setupConstraints()
+        addTarget()
     }
 
     @available(*, unavailable)

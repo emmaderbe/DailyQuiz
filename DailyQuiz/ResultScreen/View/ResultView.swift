@@ -8,11 +8,14 @@ final class ResultsView: UIView {
                                                                        height: 52),
                                                       showButton: true)
     
+    var onRestartTapped: (() -> Void)?
+
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
         setupConstraints()
+        addTarget()
     }
 
     @available(*, unavailable)
@@ -26,7 +29,6 @@ private extension ResultsView {
     func setupView() {
         self.backgroundColor = AppColors.primaryPurple
         titleLabel.textColor = AppColors.white
-
         
         [titleLabel,
          resultSummaryView].forEach({ addSubview($0)} )
@@ -42,6 +44,12 @@ private extension ResultsView {
             resultSummaryView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -27),
             
         ])
+    }
+    
+    func addTarget() {
+        resultSummaryView.onStartTapped = { [weak self] in
+            self?.onRestartTapped?()
+        }
     }
 }
 

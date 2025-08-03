@@ -50,6 +50,10 @@ private extension HistoryButton {
         addSubview(stackView)
         [textLabel,
          iconImageView].forEach( {stackView.addArrangedSubview($0)} )
+
+        textLabel.isUserInteractionEnabled = false
+        iconImageView.isUserInteractionEnabled = false
+        stackView.isUserInteractionEnabled = false
     }
 
     func setupConstraints() {

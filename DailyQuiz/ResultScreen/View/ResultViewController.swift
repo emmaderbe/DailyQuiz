@@ -33,7 +33,19 @@ final class ResultsViewController: UIViewController {
 
 private extension ResultsViewController {
     func setupView() {
+        navigationItem.hidesBackButton = true
+        addTarget()
         bindViewModel()
+    }
+    
+    func addTarget() {
+        resultsView.onRestartTapped = { [weak self] in
+            self?.returnToMainScreen()
+        }
+    }
+    
+    func returnToMainScreen() {
+        self.navigationController?.popToRootViewController(animated: true)
     }
 }
 

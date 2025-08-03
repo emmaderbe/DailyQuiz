@@ -14,6 +14,7 @@ struct LabelFactory {
         label.textAlignment = .center
         label.textColor = AppColors.black
         label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }

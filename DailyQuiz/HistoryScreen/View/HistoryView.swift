@@ -16,6 +16,7 @@ final class HistoryView: UIView {
     
     // MARK: - Public callback
     var onStartTapped: (() -> Void)?
+    var onBackTapped: (() -> Void)?
     
     // MARK: - Init
     override init(frame: CGRect) {
@@ -39,9 +40,13 @@ private extension HistoryView {
         titleLabel.textColor = AppColors.white
         
         [titleLabel,
+         collectionView,
          historyEmptyView,
          logoImage,
-         collectionView].forEach { addSubview($0) }
+         ].forEach { addSubview($0) }
+        
+        titleLabel.setContentHuggingPriority(.required, for: .vertical)
+        titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
     }
     
     func setupConstraints() {
@@ -71,6 +76,10 @@ private extension HistoryView {
         historyEmptyView.onStartTapped = { [weak self] in
             self?.onStartTapped?()
         }
+    }
+    
+    @objc func backTapped() {
+        onBackTapped?()
     }
 }
 
@@ -120,10 +129,12 @@ extension HistoryView {
         historyEmptyView.setupMessage(with: message)
     }
     
-    func setEmptyViewHidden(_ hidden: Bool) {
-        historyEmptyView.isHidden = hidden
-        logoImage.isHidden = hidden
-        collectionView.isHidden = !hidden
+    func setEmptyViewHidden(_ isEmpty: Bool) {
+        historyEmptyView.isHidden = !isEmpty
+        logoImage.isHidden = !isEmpty
+
+        collectionView.isHidden = isEmpty
+        collectionView.isUserInteractionEnabled = !isEmpty
     }
 }
 

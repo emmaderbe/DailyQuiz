@@ -39,11 +39,25 @@ private extension MainViewController {
         mainView.configureView(with: "Добро пожаловать в DailyQuiz!",
                                and: "Ошибка! Попробуйте ещё раз")
     }
-    
+}
+
+private extension MainViewController {
     func addTarger() {
+        startTapped()
+        historyTapped()
+    }
+    
+    func startTapped() {
         mainView.onStartQuizTapped = { [weak self] in
             self?.viewModel.startQuiz(category: nil,
                                       difficulty: nil)
+        }
+    }
+    
+    func historyTapped() {
+        mainView.onHistoryTapped = { [weak self] in
+            let historyVC = HistoryViewController()
+            self?.navigationController?.pushViewController(historyVC, animated: true)
         }
     }
 }

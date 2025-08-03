@@ -56,8 +56,7 @@ private extension QuizViewController {
             self?.viewModel.saveQuizResult()
             guard let id = self?.viewModel.quizId else { return }
             let resultsVC = ResultsViewController(quizId: id)
-            resultsVC.modalPresentationStyle = .fullScreen 
-            self?.present(resultsVC, animated: true)
+            self?.navigationController?.pushViewController(resultsVC, animated: true)
         }
     }
     
