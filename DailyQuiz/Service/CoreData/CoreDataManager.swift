@@ -4,7 +4,7 @@ import CoreData
 protocol CoreDataManagerProtocol {
     func saveQuizSession(id: Int, date: Date, correctAnswers: Int, questions: [QuestionModel], selectedAnswers: [Int])
     func fetchQuizSessions() -> [QuizSessionEntity]
-    func deleteSession(_ session: QuizSessionEntity)
+    func deleteSessionById(_ id: Int)
     func nextQuizId() -> Int
 }
 
@@ -47,7 +47,15 @@ extension CoreDataManager {
         }
     }
     
-    func deleteSession(_ session: QuizSessionEntity) {
+    func deleteSessionById(_ id: Int) {
+        let request: NSFetchRequest<QuizSessionEntity> = QuizSessionEntity.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %d", id)
+        if let result = try? context.fetch(request), let session = result.first {
+            deleteSession(session)
+        }
+    }
+    
+    private func deleteSession(_ session: QuizSessionEntity) {
         context.delete(session)
         do {
             try context.save()

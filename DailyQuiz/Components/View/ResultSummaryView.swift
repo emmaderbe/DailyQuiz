@@ -78,6 +78,7 @@ private extension ResultSummaryView {
     }
 }
 
+// MARK: - Action
 private extension ResultSummaryView {
     func addTarget() {
         restartButton.addTarget(self, action: #selector(startTapped), for: .touchUpInside)
@@ -88,6 +89,7 @@ private extension ResultSummaryView {
     }
 }
 
+// MARK: - Public function
 extension ResultSummaryView {
     func configure(stars: Int,
                    score: String,

@@ -60,8 +60,20 @@ private extension ResultsViewController {
         }
 
         viewModel.onFailure = { [weak self] in
-            print("Произошла ошибка")
+            self?.showErrorAlert()
         }
     }
 }
 
+// MARK: - Show error alert
+private extension ResultsViewController {
+    func showErrorAlert() {
+        let alert = CustomAlertView(frame: view.bounds)
+        alert.setupMessage(with: "Ошибка",
+                           and: "Не удалось загрузить результат. Попробуйте позже.")
+        alert.onStartTapped = { [weak alert] in
+            alert?.removeFromSuperview()
+        }
+        resultsView.addSubview(alert)
+    }
+}

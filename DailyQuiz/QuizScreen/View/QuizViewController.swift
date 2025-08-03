@@ -39,6 +39,7 @@ private extension QuizViewController {
         showQuestion()
     }
     
+    // Отображение текущего вопроса и вариантов ответа
     func showQuestion() {
         let displayModel = viewModel.getDisplayModel()
         
@@ -68,15 +69,18 @@ private extension QuizViewController {
         
         quizView.onNextTapped = { [weak self] in
             guard let self, let selected = self.selectedIndex else { return }
-            
+            // Отключения взаимодействие с кнопками, подсветка ответа
             let isCorrect = self.viewModel.selectAnswer(at: selected)
+            self.quizView.setInteractionEnabled(false)
             self.quizView.resetAnswerStates()
             self.quizView.updateAnswerState(at: selected, to: isCorrect ? .correct : .incorrect)
             
+            // Через 2 секунды — переход к следующему вопросу или результатам
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 let shouldShowNext = self.viewModel.goToNext()
                 if shouldShowNext {
                     self.showQuestion()
+                    self.quizView.setInteractionEnabled(true)
                 }
             }
         }

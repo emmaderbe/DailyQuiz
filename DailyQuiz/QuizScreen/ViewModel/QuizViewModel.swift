@@ -38,6 +38,7 @@ final class QuizViewModel: QuizViewModelProtocol {
 
 // MARK: - Protocol methods
 extension QuizViewModel {
+    // Создание модели для текущего вопроса
     func getDisplayModel() -> QuizDisplayModel {
         QuizDisplayModel(
             questionText: currentQuestion.text,
@@ -46,6 +47,7 @@ extension QuizViewModel {
         )
     }
     
+    // Сохранение выбранного ответа, возвращает, был ли он правильным
     func selectAnswer(at index: Int) -> Bool {
         if selectedAnswers.count > currentIndex {
             selectedAnswers[currentIndex] = index
@@ -56,6 +58,7 @@ extension QuizViewModel {
         return index == currentQuestion.correctAnswerIndex
     }
     
+    // Переход к следующему вопросу (или завершение викторины, если нет вопросов)
     func goToNext() -> Bool {
         currentIndex += 1
         if currentIndex >= questions.count {
@@ -65,6 +68,7 @@ extension QuizViewModel {
         return true
     }
     
+    // Подсчёт правильных ответов и сохранение результата викторины
     func saveQuizResult() {
         let correctAnswers = zip(questions, selectedAnswers).filter {
             $0.0.correctAnswerIndex == $0.1

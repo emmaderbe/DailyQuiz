@@ -76,11 +76,13 @@ private extension MainViewController {
                 }
         }
         
+        // Обработка успешного получения данных
         viewModel.onSuccess = { [weak self] questions in
                 let quizVC = QuizViewController(questions: questions)
                 self?.navigationController?.pushViewController(quizVC, animated: true)
         }
         
+        // Обработка ошибки загрузки данных
         viewModel.onFailure = { [weak self] in
                 self?.mainView.errorHidden(false)
         }

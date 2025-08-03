@@ -4,6 +4,7 @@ import Foundation
 protocol HistoryViewModelProtocol {
     var onDataLoaded: (([QuizResultModel]) -> Void)? { get set }
     func loadHistory()
+    func deleteHistoryItem(id: Int)
 }
 
 final class HistoryViewModel: HistoryViewModelProtocol {
@@ -21,6 +22,7 @@ final class HistoryViewModel: HistoryViewModelProtocol {
 
 // MARK: - Load data
 extension HistoryViewModel {
+    // Получение и сортировка истории из Core Data
     func loadHistory() {
         let sessions = coreDataManager.fetchQuizSessions()
         
@@ -34,5 +36,14 @@ extension HistoryViewModel {
         }.sorted(by: { $0.date < $1.date })
         
         onDataLoaded?(models)
+    }
+}
+
+// MARK: - Delete item
+extension HistoryViewModel {
+    // Удаление сессии викторины по идентификатору и обновление истории
+    func deleteHistoryItem(id: Int) {
+        coreDataManager.deleteSessionById(id)
+        loadHistory()
     }
 }

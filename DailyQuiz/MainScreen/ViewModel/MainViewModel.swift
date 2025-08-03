@@ -36,6 +36,7 @@ final class MainViewModel: MainViewModelProtocol {
 
 // MARK: - Start quiz
 extension MainViewModel {
+    // Запрос викторины с выбранной категорией и сложностью (на будущее)
     func startQuiz(category: String?,
                    difficulty: String?) {
         onStateChanged?(.loading)
@@ -46,6 +47,7 @@ extension MainViewModel {
                 self?.onStateChanged?(.non)
                 switch result {
                 case .success(let response):
+                    // Преобразуем данные API в модели для экрана
                     let questions = self?.mapper.map(response.results) ?? []
                     self?.onSuccess?(questions)
                 case .failure:

@@ -78,16 +78,6 @@ private extension HistoryView {
             collectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -41)
         ])
     }
-    
-    func startTapped() {
-        historyEmptyView.onStartTapped = { [weak self] in
-            self?.onStartTapped?()
-        }
-    }
-    
-    @objc func backTapped() {
-        onBackTapped?()
-    }
 }
 
 // MARK: - Setup collectionView
@@ -133,6 +123,19 @@ extension HistoryView {
     }
 }
 
+// MARK: - Actions
+private extension HistoryView {
+    func startTapped() {
+        historyEmptyView.onStartTapped = { [weak self] in
+            self?.onStartTapped?()
+        }
+    }
+    
+    @objc func backTapped() {
+        onBackTapped?()
+    }
+}
+
 // MARK: - Public functions
 extension HistoryView {
     func setupText(with title: String, and message: String) {
@@ -140,6 +143,7 @@ extension HistoryView {
         historyEmptyView.setupMessage(with: message)
     }
     
+    // Отображение или скрытие состояния "история пуста"
     func setEmptyViewHidden(_ isEmpty: Bool) {
         historyEmptyView.isHidden = !isEmpty
         logoImage.isHidden = !isEmpty

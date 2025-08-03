@@ -83,9 +83,30 @@ private extension HistoryViewController {
 
 // MARK: - HistoryDelegateProtocol
 extension HistoryViewController: HistoryDelegateProtocol {
+    // Удаление элемента истории по id
+    func quizDeleted(_ id: Int) {
+        viewModel.deleteHistoryItem(id: id)
+        showDeletedAlert()
+    }
+    
+    // Переход к экрану разбора викторины по id
     func quizSelected(_ id: Int) {
         let vc = QuizReviewViewController(id: id)
         navigationController?.pushViewController(vc, animated: true)
     }
 }
 
+// MARK: - Show deleted alert
+private extension HistoryViewController {
+    // Отображение алерта после удаления попытки
+    func showDeletedAlert() {
+        let alert = CustomAlertView(frame: view.bounds)
+        alert.setupMessage(with: "Попытка удалена",
+                           and: "Вы можете пройти викторину снова, когда будете готовы.")
+
+        alert.onStartTapped = { [weak alert] in
+            alert?.removeFromSuperview()
+        }
+        historyView.addSubview(alert)
+    }
+}

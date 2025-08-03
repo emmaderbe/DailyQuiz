@@ -6,7 +6,7 @@ protocol QuizReviewMapperProtocol {
 }
 
 // MARK: - QuizReviewMapper
-final class QuizReviewMapper: QuizReviewMapperProtocol {
+final class QuizReviewCardMapper: QuizReviewMapperProtocol {
     func map(session: QuizSessionEntity) -> [QuizReviewCardModel] {
         return session.questionsArray.map {
             QuizReviewCardModel(

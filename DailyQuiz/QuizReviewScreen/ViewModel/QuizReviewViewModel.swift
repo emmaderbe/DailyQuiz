@@ -18,7 +18,7 @@ final class QuizReviewViewModel: QuizReviewViewModelProtocol {
     
     init(coreDataManager: CoreDataManagerProtocol = CoreDataManager(),
          formatter: ResultFormatterProtocol = ResultFormatter(),
-         mapper: QuizReviewMapperProtocol = QuizReviewMapper(),
+         mapper: QuizReviewMapperProtocol = QuizReviewCardMapper(),
          quizId: Int) {
         self.coreDataManager = coreDataManager
         self.formatter = formatter
@@ -28,19 +28,23 @@ final class QuizReviewViewModel: QuizReviewViewModelProtocol {
 }
 
 extension QuizReviewViewModel {
+    // Получение данных из Core Data, форматирование и передача
     func loadQuiz() {
         let sessions = coreDataManager.fetchQuizSessions()
 
+        // Поиск нужной сессии по идентификатору
         guard let session = sessions.first(where: { $0.id == quizId }) else {
             return
         }
 
+        // Маппинг вопросов в карточки
         let cards = mapper.map(session: session)
         let resultModel = formatter.formatResult(
             correctAnswers: Int(session.correctAnswers),
             total: cards.count
         )
-
+        
+        // Создание модели для экрана
         let data = QuizReviewModel(
             resultTitle: resultModel.resultTitle,
             resultDescription: resultModel.resultDescription,

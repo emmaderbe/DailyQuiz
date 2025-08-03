@@ -27,6 +27,7 @@ final class ResultsViewModel: ResultsViewModelProtocol {
 
 // MARK: - Load data
 extension ResultsViewModel {
+    // Получение и форматирование результатов по id
     func loadResults(for quizId: Int) {
         let sessions = coreDataManager.fetchQuizSessions()
         guard let session = sessions.first(where: { $0.id == Int16(quizId) }) else {

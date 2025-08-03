@@ -77,6 +77,7 @@ extension ResultCardView {
             self.resultIcon.image = UIImage(named: resultIcon.rawValue)
             self.answersStack.arrangedSubviews.forEach { $0.removeFromSuperview() }
             
+            // Создаем кнопки результатов с учетом ответа пользователя, кнопки не рабочие
             for (index, text) in answers.enumerated() {
                 let button = AnswerButton(title: text)
                 button.isUserInteractionEnabled = false
