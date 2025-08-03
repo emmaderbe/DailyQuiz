@@ -1,9 +1,10 @@
 import UIKit
 
 final class ResultsViewController: UIViewController {
-    // MARK: - Private properties
+    // MARK: - Private dependencies
     private let resultsView = ResultsView()
     private var viewModel: ResultsViewModelProtocol
+    // MARK: - Private properties
     private let quizId: Int
     
     // MARK: - Init
@@ -31,6 +32,7 @@ final class ResultsViewController: UIViewController {
     }
 }
 
+// MARK: - UI setup
 private extension ResultsViewController {
     func setupView() {
         navigationItem.hidesBackButton = true
@@ -40,15 +42,12 @@ private extension ResultsViewController {
     
     func addTarget() {
         resultsView.onRestartTapped = { [weak self] in
-            self?.returnToMainScreen()
+            self?.navigationController?.popToRootViewController(animated: true)
         }
-    }
-    
-    func returnToMainScreen() {
-        self.navigationController?.popToRootViewController(animated: true)
     }
 }
 
+// MARK: - Binding
 private extension ResultsViewController {
     func bindViewModel() {
         viewModel.onSuccess = { [weak self] model in

@@ -43,17 +43,17 @@ final class QuizNetworkService: QuizNetworkServiceProtocol {
             guard let self else { return }
             
             if let error = error {
-                    completion(.failure(error))
+                completion(.failure(error))
                 return
             }
             
             guard let data = data else {
-                    completion(.failure(NetworkError.unknown))
+                completion(.failure(NetworkError.unknown))
                 return
             }
             
             let result: Result<QuizResponse, Error> = self.decoder.decode(QuizResponse.self, from: data)
-                completion(result)
+            completion(result)
         }.resume()
     }
 }

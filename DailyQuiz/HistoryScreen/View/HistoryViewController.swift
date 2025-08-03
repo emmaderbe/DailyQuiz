@@ -2,13 +2,13 @@ import UIKit
 
 final class HistoryViewController: UIViewController {
 
-    // MARK: - Private properties
+    // MARK: - Private dependencies
     private let historyView = HistoryView()
     private let dataSource = HistoryDataSource()
     private let delegate = HistoryDelegate()
-    
     private var viewModel: HistoryViewModelProtocol
 
+    // MARK: - Init
     init(viewModel: HistoryViewModelProtocol = HistoryViewModel()) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -47,9 +47,9 @@ private extension HistoryViewController {
         historyView.setupDelegate(delegate)
         delegate.delegate = self
     }
-
 }
 
+// MARK: - Actions
 private extension HistoryViewController {
     func setupAction() {
         startTapped()
@@ -69,6 +69,7 @@ private extension HistoryViewController {
     }
 }
 
+// MARK: - Binding
 private extension HistoryViewController {
     func setupBindings() {
         viewModel.onDataLoaded = { [weak self] results in
@@ -80,6 +81,7 @@ private extension HistoryViewController {
     }
 }
 
+// MARK: - HistoryDelegateProtocol
 extension HistoryViewController: HistoryDelegateProtocol {
     func quizSelected(_ id: Int) {
         let vc = QuizReviewViewController(id: id)

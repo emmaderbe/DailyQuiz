@@ -1,10 +1,11 @@
 import UIKit
 
 final class QuizReviewViewController: UIViewController {
-    // MARK: - Private properties
+    // MARK: - Private dependencies
     private let quizReviewView = QuizReviewView()
     private var viewModel: QuizReviewViewModelProtocol
     
+    // MARK: - Init
     init(id: Int) {
         self.viewModel = QuizReviewViewModel(quizId: id)
         super.init(nibName: nil, bundle: nil)
@@ -28,13 +29,26 @@ final class QuizReviewViewController: UIViewController {
     }
 }
 
+// MARK: - UI setup
 private extension QuizReviewViewController {
     func setupView() {
         navigationController?.setNavigationBarHidden(true, animated: false)
         navigationItem.hidesBackButton = true
         addTarget()
     }
-    
+}
+
+// MARK: - Actions
+private extension QuizReviewViewController {
+    func addTarget() {
+        quizReviewView.onRestartTapped = { [weak self] in
+            self?.navigationController?.popToRootViewController(animated: true)
+        }
+    }
+}
+
+// MARK: - Binding
+private extension QuizReviewViewController {
     func setupBindings() {
         viewModel.onDataPrepared = { [weak self] model in
             self?.quizReviewView.configure(
@@ -44,12 +58,6 @@ private extension QuizReviewViewController {
                 stars: model.stars
             )
             self?.quizReviewView.setCards(model.cards)
-        }
-    }
-
-    func addTarget() {
-        quizReviewView.onRestartTapped = { [weak self] in
-            self?.navigationController?.popToRootViewController(animated: true)
         }
     }
 }

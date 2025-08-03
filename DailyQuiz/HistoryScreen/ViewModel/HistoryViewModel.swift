@@ -1,20 +1,25 @@
 import Foundation
 
+// MARK: - HistoryViewModelProtocol
 protocol HistoryViewModelProtocol {
     var onDataLoaded: (([QuizResultModel]) -> Void)? { get set }
-    
     func loadHistory()
 }
 
 final class HistoryViewModel: HistoryViewModelProtocol {
+    // MARK: - Private dependency
     private let coreDataManager: CoreDataManagerProtocol
+    
+    // MARK: - Public callback
     var onDataLoaded: (([QuizResultModel]) -> Void)?
 
+    // MARK: - Init
     init(coreDataManager: CoreDataManagerProtocol = CoreDataManager()) {
         self.coreDataManager = coreDataManager
     }
 }
 
+// MARK: - Load data
 extension HistoryViewModel {
     func loadHistory() {
         let sessions = coreDataManager.fetchQuizSessions()

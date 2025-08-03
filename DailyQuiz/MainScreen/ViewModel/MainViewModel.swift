@@ -1,5 +1,6 @@
 import Foundation
 
+// MARK: - MainViewModelProtocol
 protocol MainViewModelProtocol {
     var onStateChanged: ((NetworkState) -> Void)? { get set }
     var onSuccess: (([QuestionModel]) -> Void)? { get set }
@@ -9,19 +10,23 @@ protocol MainViewModelProtocol {
                    difficulty: String?)
 }
 
+// MARK: - NetworkState
 enum NetworkState {
     case non
     case loading
 }
 
 final class MainViewModel: MainViewModelProtocol {
+    // MARK: - Private dependecies
     private let networkService: QuizNetworkServiceProtocol
     private let mapper: QuestionMapperProtocol
     
+    // MARK: - Public callbacks
     var onStateChanged: ((NetworkState) -> Void)?
     var onSuccess: (([QuestionModel]) -> Void)?
     var onFailure: (() -> Void)?
 
+    // MARK: - Init
     init(networkService: QuizNetworkServiceProtocol = QuizNetworkService(),
          mapper: QuestionMapperProtocol = QuestionMapper()) {
         self.networkService = networkService
@@ -29,8 +34,10 @@ final class MainViewModel: MainViewModelProtocol {
     }
 }
 
+// MARK: - Start quiz
 extension MainViewModel {
-    func startQuiz(category: String?, difficulty: String?) {
+    func startQuiz(category: String?,
+                   difficulty: String?) {
         onStateChanged?(.loading)
 
         networkService.fetchQuiz(category: category,

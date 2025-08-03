@@ -1,7 +1,7 @@
 import UIKit
 
 class MainViewController: UIViewController {
-    // MARK: - Private properties
+    // MARK: - Private dependencies
     private let mainView = MainView()
     private var viewModel: MainViewModelProtocol
     
@@ -41,6 +41,7 @@ private extension MainViewController {
     }
 }
 
+// MARK: - Actions
 private extension MainViewController {
     func addTarger() {
         startTapped()
@@ -62,6 +63,7 @@ private extension MainViewController {
     }
 }
 
+// MARK: - Binding
 private extension MainViewController {
     func setupBindings() {
         viewModel.onStateChanged = { [weak self] state in

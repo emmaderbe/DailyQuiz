@@ -1,9 +1,11 @@
 import Foundation
 
+// MARK: - ResultFormatterProtocol
 protocol ResultFormatterProtocol {
     func formatResult(correctAnswers: Int, total: Int) -> ResultsDisplayModel
 }
 
+// MARK: - ResultFormatter
 final class ResultFormatter: ResultFormatterProtocol {
     func formatResult(correctAnswers: Int,
                       total: Int) -> ResultsDisplayModel {

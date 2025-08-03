@@ -16,7 +16,9 @@ final class CoreDataManager: CoreDataManagerProtocol {
     private var context: NSManagedObjectContext {
         (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     }
+}
 
+extension CoreDataManager {
     func saveQuizSession(id: Int,
                          date: Date,
                          correctAnswers: Int,
@@ -26,7 +28,7 @@ final class CoreDataManager: CoreDataManagerProtocol {
         session.id = Int16(id)
         session.date = date
         session.correctAnswers = Int16(correctAnswers)
-
+        
         for (index, question) in questions.enumerated() {
             let questionEntity = QuestionEntity(context: context)
             questionEntity.questionText = question.text
@@ -36,7 +38,7 @@ final class CoreDataManager: CoreDataManagerProtocol {
             questionEntity.isCorrect = question.correctAnswerIndex == selectedAnswers[index]
             questionEntity.quizSession = session
         }
-
+        
         do {
             try context.save()
             NotificationCenter.default.post(name: .dataDidChange, object: nil)
@@ -44,19 +46,7 @@ final class CoreDataManager: CoreDataManagerProtocol {
             print("Failed to save session: \(error)")
         }
     }
-
-    func fetchQuizSessions() -> [QuizSessionEntity] {
-        let request: NSFetchRequest<QuizSessionEntity> = QuizSessionEntity.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
-
-        do {
-            return try context.fetch(request)
-        } catch {
-            print("Failed to fetch sessions: \(error)")
-            return []
-        }
-    }
-
+    
     func deleteSession(_ session: QuizSessionEntity) {
         context.delete(session)
         do {
@@ -66,12 +56,14 @@ final class CoreDataManager: CoreDataManagerProtocol {
             print("Failed to delete session: \(error)")
         }
     }
-    
+}
+
+extension CoreDataManager {
     func nextQuizId() -> Int {
         let request: NSFetchRequest<QuizSessionEntity> = QuizSessionEntity.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "id", ascending: false)]
         request.fetchLimit = 1
-
+        
         do {
             if let last = try context.fetch(request).first {
                 return Int(last.id) + 1
@@ -81,7 +73,17 @@ final class CoreDataManager: CoreDataManagerProtocol {
         }
         return 1
     }
-
+    
+    func fetchQuizSessions() -> [QuizSessionEntity] {
+        let request: NSFetchRequest<QuizSessionEntity> = QuizSessionEntity.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
+        
+        do {
+            return try context.fetch(request)
+        } catch {
+            print("Failed to fetch sessions: \(error)")
+            return []
+        }
+    }
 }
-
 

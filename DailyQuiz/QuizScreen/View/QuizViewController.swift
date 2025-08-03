@@ -1,7 +1,7 @@
 import UIKit
 
 final class QuizViewController: UIViewController {
-    // MARK: - UI components
+    // MARK: - Private dependencies
     private let quizView = QuizView()
     private var viewModel: QuizViewModelProtocol
     
@@ -30,6 +30,7 @@ final class QuizViewController: UIViewController {
     }
 }
 
+// MARK: - UI setup
 private extension QuizViewController {
     func setupView() {
         navigationItem.hidesBackButton = true
@@ -39,7 +40,7 @@ private extension QuizViewController {
     }
     
     func showQuestion() {
-        guard let displayModel = try? viewModel.getDisplayModel() else { return }
+        let displayModel = viewModel.getDisplayModel()
         
         quizView.setText(question: displayModel.questionText,
                          progress: displayModel.progressText,

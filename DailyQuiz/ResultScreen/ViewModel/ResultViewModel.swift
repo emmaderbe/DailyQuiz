@@ -8,14 +8,16 @@ protocol ResultsViewModelProtocol {
     func loadResults(for quizId: Int)
 }
 
-// MARK: - Implementation
 final class ResultsViewModel: ResultsViewModelProtocol {
+    // MARK: - Public callback
     var onSuccess: ((ResultsDisplayModel) -> Void)?
     var onFailure: (() -> Void)?
 
+    // MARK: - Private dependencies
     private let coreDataManager: CoreDataManagerProtocol
     private let formatter: ResultFormatterProtocol
 
+    // MARK: - Init
     init(coreDataManager: CoreDataManagerProtocol = CoreDataManager(),
          formatter: ResultFormatterProtocol = ResultFormatter()) {
         self.coreDataManager = coreDataManager
@@ -23,6 +25,7 @@ final class ResultsViewModel: ResultsViewModelProtocol {
     }
 }
 
+// MARK: - Load data
 extension ResultsViewModel {
     func loadResults(for quizId: Int) {
         let sessions = coreDataManager.fetchQuizSessions()
@@ -34,6 +37,5 @@ extension ResultsViewModel {
         let total = session.questions?.count ?? 5
         let model = formatter.formatResult(correctAnswers: correct, total: total)
         onSuccess?(model)
-        
     }
 }

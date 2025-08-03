@@ -11,7 +11,7 @@ struct QuestionResponse: Decodable {
     let question: String
     let correctAnswer: String
     let incorrectAnswers: [String]
-
+    
     enum CodingKeys: String, CodingKey {
         case category
         case difficulty
