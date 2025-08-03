@@ -20,7 +20,7 @@ final class URLBuilder: URLBuilderProtocol {
         if let difficulty = difficulty {
             queryItems.append(.init(name: "difficulty", value: difficulty))
         }
-
+        
         components?.queryItems = queryItems
         return components?.url
     }

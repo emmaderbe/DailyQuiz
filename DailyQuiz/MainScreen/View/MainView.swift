@@ -82,7 +82,6 @@ private extension MainView {
             errorLabel.topAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: 24),
             errorLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 45),
             errorLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -45),
-            errorLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -194),
         ])
     }
 }

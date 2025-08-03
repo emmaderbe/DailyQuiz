@@ -1,7 +1,7 @@
 import UIKit
 
 final class QuizViewController: UIViewController {
-    // MARK: - UI components
+    // MARK: - Private dependencies
     private let quizView = QuizView()
     private var viewModel: QuizViewModelProtocol
     
@@ -30,6 +30,7 @@ final class QuizViewController: UIViewController {
     }
 }
 
+// MARK: - UI setup
 private extension QuizViewController {
     func setupView() {
         navigationItem.hidesBackButton = true
@@ -38,8 +39,9 @@ private extension QuizViewController {
         showQuestion()
     }
     
+    // Отображение текущего вопроса и вариантов ответа
     func showQuestion() {
-        guard let displayModel = try? viewModel.getDisplayModel() else { return }
+        let displayModel = viewModel.getDisplayModel()
         
         quizView.setText(question: displayModel.questionText,
                          progress: displayModel.progressText,
@@ -53,7 +55,10 @@ private extension QuizViewController {
 private extension QuizViewController {
     func setupViewModelBindings() {
         viewModel.onQuizFinished = { [weak self] in
-            print("Квиз завершён")
+            self?.viewModel.saveQuizResult()
+            guard let id = self?.viewModel.quizId else { return }
+            let resultsVC = ResultsViewController(quizId: id)
+            self?.navigationController?.pushViewController(resultsVC, animated: true)
         }
     }
     
@@ -64,15 +69,18 @@ private extension QuizViewController {
         
         quizView.onNextTapped = { [weak self] in
             guard let self, let selected = self.selectedIndex else { return }
-            
+            // Отключения взаимодействие с кнопками, подсветка ответа
             let isCorrect = self.viewModel.selectAnswer(at: selected)
+            self.quizView.setInteractionEnabled(false)
             self.quizView.resetAnswerStates()
             self.quizView.updateAnswerState(at: selected, to: isCorrect ? .correct : .incorrect)
             
+            // Через 2 секунды — переход к следующему вопросу или результатам
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 let shouldShowNext = self.viewModel.goToNext()
                 if shouldShowNext {
                     self.showQuestion()
+                    self.quizView.setInteractionEnabled(true)
                 }
             }
         }

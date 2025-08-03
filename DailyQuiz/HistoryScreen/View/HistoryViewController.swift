@@ -2,19 +2,22 @@ import UIKit
 
 final class HistoryViewController: UIViewController {
 
-    // MARK: - Private properties
+    // MARK: - Private dependencies
     private let historyView = HistoryView()
     private let dataSource = HistoryDataSource()
+    private let delegate = HistoryDelegate()
+    private var viewModel: HistoryViewModelProtocol
 
-    private let mockEmptyResults: [QuizResultModel] = []
+    // MARK: - Init
+    init(viewModel: HistoryViewModelProtocol = HistoryViewModel()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
     
-    private let mockFilledResults: [QuizResultModel] = [
-        QuizResultModel(title: "Quiz 1", date: makeDate(day: 7, hour: 12, minute: 3), stars: 3),
-        QuizResultModel(title: "Quiz 2", date: makeDate(day: 8, hour: 14, minute: 15), stars: 2),
-        QuizResultModel(title: "Quiz 3", date: makeDate(day: 9, hour: 9, minute: 30), stars: 3),
-        QuizResultModel(title: "Quiz 4", date: makeDate(day: 10, hour: 16, minute: 45), stars: 4),
-        QuizResultModel(title: "Quiz 5", date: makeDate(day: 11, hour: 11, minute: 0), stars: 2)
-    ]
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Lifecycle
     override func loadView() {
@@ -24,38 +27,86 @@ final class HistoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        setupBindings()
+        viewModel.loadHistory()
     }
 }
 
 // MARK: - UI setup
 private extension HistoryViewController {
     func setupView() {
+        navigationItem.hidesBackButton = true
         setupAction()
-        historyView.setDataSource(dataSource)
+        setupCollection()
         historyView.setupText(with: "История",
                               and: "Вы еще не проходили ни одной викторины")
-        
-        let results = mockEmptyResults
-        
-        dataSource.updateResults(results)
-        historyView.reloadData()
-        historyView.setEmptyViewHidden(!results.isEmpty)
     }
     
-    func setupAction() {
-        historyView.onStartTapped = { [weak self] in
-            print("Начать викторину")
-        }
-    }
-    
-    static func makeDate(day: Int, hour: Int, minute: Int) -> Date {
-        var components = DateComponents()
-        components.year = 2025
-        components.month = 7
-        components.day = day
-        components.hour = hour
-        components.minute = minute
-        return Calendar.current.date(from: components) ?? Date()
+    func setupCollection() {
+        historyView.setDataSource(dataSource)
+        historyView.setupDelegate(delegate)
+        delegate.delegate = self
     }
 }
 
+// MARK: - Actions
+private extension HistoryViewController {
+    func setupAction() {
+        startTapped()
+        backTapped()
+    }
+    
+    func startTapped() {
+        historyView.onStartTapped = { [weak self] in
+            self?.navigationController?.popToRootViewController(animated: true)
+        }
+    }
+    
+    func backTapped() {
+        historyView.onBackTapped = { [weak self] in
+            self?.navigationController?.popViewController(animated: true)
+        }
+    }
+}
+
+// MARK: - Binding
+private extension HistoryViewController {
+    func setupBindings() {
+        viewModel.onDataLoaded = { [weak self] results in
+            self?.dataSource.updateResults(results)
+            self?.delegate.updateItems(results)
+            self?.historyView.reloadData()
+            self?.historyView.setEmptyViewHidden(results.isEmpty)
+        }
+    }
+}
+
+// MARK: - HistoryDelegateProtocol
+extension HistoryViewController: HistoryDelegateProtocol {
+    // Удаление элемента истории по id
+    func quizDeleted(_ id: Int) {
+        viewModel.deleteHistoryItem(id: id)
+        showDeletedAlert()
+    }
+    
+    // Переход к экрану разбора викторины по id
+    func quizSelected(_ id: Int) {
+        let vc = QuizReviewViewController(id: id)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+// MARK: - Show deleted alert
+private extension HistoryViewController {
+    // Отображение алерта после удаления попытки
+    func showDeletedAlert() {
+        let alert = CustomAlertView(frame: view.bounds)
+        alert.setupMessage(with: "Попытка удалена",
+                           and: "Вы можете пройти викторину снова, когда будете готовы.")
+
+        alert.onStartTapped = { [weak alert] in
+            alert?.removeFromSuperview()
+        }
+        historyView.addSubview(alert)
+    }
+}

@@ -117,6 +117,7 @@ extension QuizReviewView {
 }
 
 extension QuizReviewView {
+    // Отображение карточек вопросов с результатами
     func setCards(_ cards: [QuizReviewCardModel]) {
         // Удаляем предыдущие карточки
         answerStack.arrangedSubviews.forEach { $0.removeFromSuperview() }

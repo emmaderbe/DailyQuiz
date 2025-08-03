@@ -32,8 +32,8 @@ private extension HistoryCell {
     func setupView() {
         contentView.backgroundColor = AppColors.white
         titleLabel.textColor = AppColors.darkPurple
-        contentView.layer.cornerRadius = 40
-        contentView.layer.masksToBounds = true
+        layer.cornerRadius = 40
+        layer.masksToBounds = true
         
         contentView.addSubview(horizontalStack)
         editStacks()
@@ -57,10 +57,7 @@ private extension HistoryCell {
         ])
     }
     
-    func editStacks() {
-        horizontalStack.distribution = .equalSpacing
-        horizontalStack.alignment = .center
-        
+    func editStacks() {        
         firstVertStack.alignment = .leading
         secondtVertStack.alignment = .trailing
     }

@@ -1,7 +1,7 @@
 import UIKit
 
 class MainViewController: UIViewController {
-    // MARK: - Private properties
+    // MARK: - Private dependencies
     private let mainView = MainView()
     private var viewModel: MainViewModelProtocol
     
@@ -39,19 +39,34 @@ private extension MainViewController {
         mainView.configureView(with: "Добро пожаловать в DailyQuiz!",
                                and: "Ошибка! Попробуйте ещё раз")
     }
-    
+}
+
+// MARK: - Actions
+private extension MainViewController {
     func addTarger() {
+        startTapped()
+        historyTapped()
+    }
+    
+    func startTapped() {
         mainView.onStartQuizTapped = { [weak self] in
             self?.viewModel.startQuiz(category: nil,
                                       difficulty: nil)
         }
     }
+    
+    func historyTapped() {
+        mainView.onHistoryTapped = { [weak self] in
+            let historyVC = HistoryViewController()
+            self?.navigationController?.pushViewController(historyVC, animated: true)
+        }
+    }
 }
 
+// MARK: - Binding
 private extension MainViewController {
     func setupBindings() {
         viewModel.onStateChanged = { [weak self] state in
-            DispatchQueue.main.async {
                 switch state {
                 case .non:
                     self?.mainView.showLoader(false)
@@ -59,20 +74,17 @@ private extension MainViewController {
                     self?.mainView.errorHidden(true)
                     self?.mainView.showLoader(true)
                 }
-            }
         }
         
+        // Обработка успешного получения данных
         viewModel.onSuccess = { [weak self] questions in
-            DispatchQueue.main.async {
                 let quizVC = QuizViewController(questions: questions)
                 self?.navigationController?.pushViewController(quizVC, animated: true)
-            }
         }
         
+        // Обработка ошибки загрузки данных
         viewModel.onFailure = { [weak self] in
-            DispatchQueue.main.async {
                 self?.mainView.errorHidden(false)
-            }
         }
     }
 }

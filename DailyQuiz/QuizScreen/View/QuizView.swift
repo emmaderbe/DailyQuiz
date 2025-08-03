@@ -127,6 +127,13 @@ extension QuizView {
             button.applyState(state)
         }
     }
+    
+    // Блокировка кнопок после выбора ответа
+    func setInteractionEnabled(_ isEnabled: Bool) {
+        answerButtons.forEach { $0.isUserInteractionEnabled = isEnabled }
+        nextButton.isUserInteractionEnabled = isEnabled
+        nextButton.alpha = isEnabled ? 1.0 : 0.7
+    }
 }
 
 // MARK: - Answer state updates
