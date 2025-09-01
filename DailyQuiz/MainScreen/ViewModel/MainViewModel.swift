@@ -27,8 +27,8 @@ final class MainViewModel: MainViewModelProtocol {
     var onFailure: (() -> Void)?
 
     // MARK: - Init
-    init(networkService: QuizNetworkServiceProtocol = QuizNetworkService(),
-         mapper: QuestionMapperProtocol = QuestionMapper()) {
+    init(networkService: QuizNetworkServiceProtocol,
+         mapper: QuestionMapperProtocol) {
         self.networkService = networkService
         self.mapper = mapper
     }

@@ -16,9 +16,9 @@ final class QuizReviewViewModel: QuizReviewViewModelProtocol {
     
     private let quizId: Int
     
-    init(coreDataManager: CoreDataManagerProtocol = CoreDataManager(),
-         formatter: ResultFormatterProtocol = ResultFormatter(),
-         mapper: QuizReviewMapperProtocol = QuizReviewCardMapper(),
+    init(coreDataManager: CoreDataManagerProtocol,
+         formatter: ResultFormatterProtocol,
+         mapper: QuizReviewMapperProtocol,
          quizId: Int) {
         self.coreDataManager = coreDataManager
         self.formatter = formatter

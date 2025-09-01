@@ -15,7 +15,7 @@ final class HistoryViewModel: HistoryViewModelProtocol {
     var onDataLoaded: (([QuizResultModel]) -> Void)?
 
     // MARK: - Init
-    init(coreDataManager: CoreDataManagerProtocol = CoreDataManager()) {
+    init(coreDataManager: CoreDataManagerProtocol) {
         self.coreDataManager = coreDataManager
     }
 }

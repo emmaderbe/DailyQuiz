@@ -6,7 +6,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
-        let mainVC = MainViewController()
+        let mainAssembley = MainScreenAssembly()
+        let mainVC = mainAssembley.makeScreen()
         let navController = UINavigationController(rootViewController: mainVC)
         window.rootViewController = navController
         window.makeKeyAndVisible()

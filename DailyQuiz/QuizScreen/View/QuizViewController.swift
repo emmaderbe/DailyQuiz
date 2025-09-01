@@ -4,13 +4,16 @@ final class QuizViewController: UIViewController {
     // MARK: - Private dependencies
     private let quizView = QuizView()
     private var viewModel: QuizViewModelProtocol
+    private let router: QuizRouterProtocol
     
     // MARK: - Private properties
     private var selectedIndex: Int?
     
     // MARK: - Init
-    init(questions: [QuestionModel]) {
-        self.viewModel = QuizViewModel(questions: questions)
+    init(viewModel: QuizViewModelProtocol,
+         router: QuizRouterProtocol) {
+        self.viewModel = viewModel
+        self.router = router
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -26,6 +29,7 @@ final class QuizViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        router.attach(navigationController: self.navigationController)
         setupView()
     }
 }
@@ -57,8 +61,7 @@ private extension QuizViewController {
         viewModel.onQuizFinished = { [weak self] in
             self?.viewModel.saveQuizResult()
             guard let id = self?.viewModel.quizId else { return }
-            let resultsVC = ResultsViewController(quizId: id)
-            self?.navigationController?.pushViewController(resultsVC, animated: true)
+            self?.router.goToResultScreen(with: id)
         }
     }
     
@@ -86,7 +89,7 @@ private extension QuizViewController {
         }
         
         quizView.onBackTapped = { [weak self] in
-            self?.navigationController?.popViewController(animated: true)
+            self?.router.goBack()
         }
     }
 }

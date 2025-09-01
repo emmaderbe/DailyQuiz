@@ -4,14 +4,17 @@ final class ResultsViewController: UIViewController {
     // MARK: - Private dependencies
     private let resultsView = ResultsView()
     private var viewModel: ResultsViewModelProtocol
+    private let router: ResultRouterProtocol
     // MARK: - Private properties
     private let quizId: Int
     
     // MARK: - Init
-    init(viewModel: ResultsViewModelProtocol = ResultsViewModel(),
-         quizId: Int) {
+    init(viewModel: ResultsViewModelProtocol,
+         quizId: Int,
+         router: ResultRouterProtocol) {
         self.viewModel = viewModel
         self.quizId = quizId
+        self.router = router
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -27,6 +30,7 @@ final class ResultsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        router.attach(navigationController: self.navigationController)
         setupView()
         self.viewModel.loadResults(for: quizId)
     }
@@ -42,7 +46,7 @@ private extension ResultsViewController {
     
     func addTarget() {
         resultsView.onRestartTapped = { [weak self] in
-            self?.navigationController?.popToRootViewController(animated: true)
+            self?.router.goBack()
         }
     }
 }

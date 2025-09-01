@@ -4,10 +4,13 @@ final class QuizReviewViewController: UIViewController {
     // MARK: - Private dependencies
     private let quizReviewView = QuizReviewView()
     private var viewModel: QuizReviewViewModelProtocol
+    private let router: QuizReviewRouterProtocol
     
     // MARK: - Init
-    init(id: Int) {
-        self.viewModel = QuizReviewViewModel(quizId: id)
+    init(viewModel: QuizReviewViewModelProtocol,
+         router: QuizReviewRouterProtocol) {
+        self.viewModel = viewModel
+        self.router = router
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -23,6 +26,7 @@ final class QuizReviewViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        router.attach(navigationController: self.navigationController)
         setupView()
         setupBindings()
         viewModel.loadQuiz()
@@ -42,7 +46,7 @@ private extension QuizReviewViewController {
 private extension QuizReviewViewController {
     func addTarget() {
         quizReviewView.onRestartTapped = { [weak self] in
-            self?.navigationController?.popToRootViewController(animated: true)
+            self?.router.goBack()
         }
     }
 }

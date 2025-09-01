@@ -28,7 +28,7 @@ final class MainView: UIView {
         backgroundColor = AppColors.primaryPurple
         setupView()
         setupConstraints()
-        addTarger()
+        addTarget()
     }
     
     @available(*, unavailable)
@@ -88,7 +88,7 @@ private extension MainView {
 
 // MARK: - Actions
 private extension MainView {
-    func addTarger() {
+    func addTarget() {
         startQuizButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
         historyButton.addTarget(self, action: #selector(historyButtonTapped), for: .touchUpInside)
     }

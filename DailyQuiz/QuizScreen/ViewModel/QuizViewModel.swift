@@ -28,8 +28,8 @@ final class QuizViewModel: QuizViewModelProtocol {
     
     // MARK: - Init
     init(questions: [QuestionModel],
-         coreDataManager: CoreDataManagerProtocol = CoreDataManager(),
-         date: Date = Date()) {
+         coreDataManager: CoreDataManagerProtocol,
+         date: Date) {
         self.questions = questions
         self.coreDataManager = coreDataManager
         self.date = date

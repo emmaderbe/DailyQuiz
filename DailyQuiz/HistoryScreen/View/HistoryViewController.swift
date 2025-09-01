@@ -7,10 +7,13 @@ final class HistoryViewController: UIViewController {
     private let dataSource = HistoryDataSource()
     private let delegate = HistoryDelegate()
     private var viewModel: HistoryViewModelProtocol
+    private let router: HistoryRouterProtocol
 
     // MARK: - Init
-    init(viewModel: HistoryViewModelProtocol = HistoryViewModel()) {
+    init(viewModel: HistoryViewModelProtocol,
+         router: HistoryRouterProtocol) {
         self.viewModel = viewModel
+        self.router = router
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -26,6 +29,7 @@ final class HistoryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        router.attach(navigationController: self.navigationController)
         setupView()
         setupBindings()
         viewModel.loadHistory()
@@ -58,13 +62,13 @@ private extension HistoryViewController {
     
     func startTapped() {
         historyView.onStartTapped = { [weak self] in
-            self?.navigationController?.popToRootViewController(animated: true)
+            self?.router.goBack()
         }
     }
     
     func backTapped() {
         historyView.onBackTapped = { [weak self] in
-            self?.navigationController?.popViewController(animated: true)
+            self?.router.goBack()
         }
     }
 }
@@ -91,8 +95,7 @@ extension HistoryViewController: HistoryDelegateProtocol {
     
     // Переход к экрану разбора викторины по id
     func quizSelected(_ id: Int) {
-        let vc = QuizReviewViewController(id: id)
-        navigationController?.pushViewController(vc, animated: true)
+        self.router.goToQuizReview(with: id)
     }
 }
 

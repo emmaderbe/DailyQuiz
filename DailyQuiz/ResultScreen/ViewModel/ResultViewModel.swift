@@ -18,8 +18,8 @@ final class ResultsViewModel: ResultsViewModelProtocol {
     private let formatter: ResultFormatterProtocol
 
     // MARK: - Init
-    init(coreDataManager: CoreDataManagerProtocol = CoreDataManager(),
-         formatter: ResultFormatterProtocol = ResultFormatter()) {
+    init(coreDataManager: CoreDataManagerProtocol,
+         formatter: ResultFormatterProtocol) {
         self.coreDataManager = coreDataManager
         self.formatter = formatter
     }

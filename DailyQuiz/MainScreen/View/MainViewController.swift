@@ -3,11 +3,14 @@ import UIKit
 class MainViewController: UIViewController {
     // MARK: - Private dependencies
     private let mainView = MainView()
+    private let router: MainRouterProtocol
     private var viewModel: MainViewModelProtocol
     
     // MARK: - Init
-    init(viewModel: MainViewModelProtocol = MainViewModel()) {
+    init(viewModel: MainViewModelProtocol,
+         router: MainRouterProtocol) {
         self.viewModel = viewModel
+        self.router = router
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -22,6 +25,7 @@ class MainViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        router.attach(navigationController: self.navigationController)
         setupView()
         setupBindings()
     }
@@ -32,7 +36,7 @@ private extension MainViewController {
     func setupView() {
         setupText()
         mainView.showLoader(false)
-        addTarger()
+        addTarget()
     }
     
     func setupText() {
@@ -43,7 +47,7 @@ private extension MainViewController {
 
 // MARK: - Actions
 private extension MainViewController {
-    func addTarger() {
+    func addTarget() {
         startTapped()
         historyTapped()
     }
@@ -57,8 +61,7 @@ private extension MainViewController {
     
     func historyTapped() {
         mainView.onHistoryTapped = { [weak self] in
-            let historyVC = HistoryViewController()
-            self?.navigationController?.pushViewController(historyVC, animated: true)
+            self?.router.goToHistoryScreen()
         }
     }
 }
@@ -67,24 +70,23 @@ private extension MainViewController {
 private extension MainViewController {
     func setupBindings() {
         viewModel.onStateChanged = { [weak self] state in
-                switch state {
-                case .non:
-                    self?.mainView.showLoader(false)
-                case .loading:
-                    self?.mainView.errorHidden(true)
-                    self?.mainView.showLoader(true)
-                }
+            switch state {
+            case .non:
+                self?.mainView.showLoader(false)
+            case .loading:
+                self?.mainView.errorHidden(true)
+                self?.mainView.showLoader(true)
+            }
         }
         
         // Обработка успешного получения данных
         viewModel.onSuccess = { [weak self] questions in
-                let quizVC = QuizViewController(questions: questions)
-                self?.navigationController?.pushViewController(quizVC, animated: true)
+            self?.router.goToQuizScreen(with: questions)
         }
         
         // Обработка ошибки загрузки данных
         viewModel.onFailure = { [weak self] in
-                self?.mainView.errorHidden(false)
+            self?.mainView.errorHidden(false)
         }
     }
 }
