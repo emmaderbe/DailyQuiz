@@ -20,7 +20,7 @@ final class QuizReviewView: UIView {
     private let answerTitle = LabelFactory.createLabel(with: .black,
                                                        and: 32)
     private let answerStack = StackFactory.createVerticalStack(with: 24)
-    private let restartButton = CustomButton(title: "Начать заново",
+    private let restartButton = CustomButton(title: String(localized: "restartBttn"),
                                              style: .white)
     
     // MARK: - Public сallbacks
@@ -107,8 +107,8 @@ extension QuizReviewView {
                    resultDescription: String,
                    scoreText: String,
                    stars: Int) {
-        resultLabel.text = "Результаты"
-        answerTitle.text = "Твои ответы"
+        resultLabel.text = String(localized: "resultTitle")
+        answerTitle.text = String(localized: "answerTitle")
         resultSummaryView.configure(stars: stars,
                                     score: scoreText,
                                     title: resultTitle,
@@ -126,7 +126,11 @@ extension QuizReviewView {
         for (index, card) in cards.enumerated() {
             let cardView = ResultCardView()
             cardView.configure(
-                progressText: "Вопрос \(index + 1) из \(cards.count)",
+                progressText: String(
+                    format: NSLocalizedString("quizProgress", comment: ""),
+                    index + 1,
+                    cards.count
+                ),
                 resultIcon: card.isCorrect ? .correct : .incorrect,
                 questionText: card.question,
                 answers: card.answers,

@@ -42,8 +42,8 @@ private extension HistoryViewController {
         navigationItem.hidesBackButton = true
         setupAction()
         setupCollection()
-        historyView.setupText(with: "История",
-                              and: "Вы еще не проходили ни одной викторины")
+        historyView.setupText(with: String(localized: "historyTitle"),
+                              and: String(localized: "emptyQuizzes"))
     }
     
     func setupCollection() {
@@ -104,8 +104,8 @@ private extension HistoryViewController {
     // Отображение алерта после удаления попытки
     func showDeletedAlert() {
         let alert = CustomAlertView(frame: view.bounds)
-        alert.setupMessage(with: "Попытка удалена",
-                           and: "Вы можете пройти викторину снова, когда будете готовы.")
+        alert.setupMessage(with: String(localized: "alertDeleteTitle"),
+                           and: String(localized: "alertDeleteDescription"))
 
         alert.onStartTapped = { [weak alert] in
             alert?.removeFromSuperview()

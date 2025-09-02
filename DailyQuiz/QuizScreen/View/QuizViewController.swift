@@ -49,7 +49,7 @@ private extension QuizViewController {
         
         quizView.setText(question: displayModel.questionText,
                          progress: displayModel.progressText,
-                         warning: "Вернуться к предыдущим вопросам нельзя")
+                         warning: String(localized: "warningQuizLabel"))
         quizView.setAnswers(displayModel.answerOptions)
         selectedIndex = nil
     }

@@ -14,23 +14,23 @@ final class ResultFormatter: ResultFormatterProtocol {
 
         switch correctAnswers {
         case 5:
-            title = "Идеально!"
-            subtitle = "5/5 — вы ответили на всё правильно. Это блестящий результат!"
+            title = String(localized: "quizResultTitleCase5")
+            subtitle = String(localized: "quizResultDescriptionCase5")
         case 4:
-            title = "Почти идеально!"
-            subtitle = "4/5 — очень близко к совершенству. Ещё один шаг!"
+            title = String(localized: "quizResultTitleCase4")
+            subtitle = String(localized: "quizResultDescriptionCase4")
         case 3:
-            title = "Хороший результат!"
-            subtitle = "3/5 — вы на верном пути. Продолжайте тренироваться!"
+            title = String(localized: "quizResultTitleCase3")
+            subtitle = String(localized: "quizResultDescriptionCase3")
         case 2:
-            title = "Есть над чем поработать"
-            subtitle = "2/5 — не расстраивайтесь, попробуйте ещё раз!"
+            title = String(localized: "quizResultTitleCase2")
+            subtitle = String(localized: "quizResultDescriptionCase2")
         case 1:
-            title = "Сложный вопрос?"
-            subtitle = "1/5 — иногда просто не ваш день. Следующая попытка будет лучше!"
+            title = String(localized: "quizResultTitleCase1")
+            subtitle = String(localized: "quizResultDescriptionCase1")
         default:
-            title = "Бывает и так!"
-            subtitle = "0/5 — не отчаивайтесь. Начните заново и удивите себя!"
+            title = String(localized: "quizResultTitleDefault")
+            subtitle = String(localized: "quizResultDescriptionDefault")
         }
 
         return ResultsDisplayModel(

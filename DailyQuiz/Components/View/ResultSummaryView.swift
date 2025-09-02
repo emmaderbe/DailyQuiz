@@ -12,7 +12,7 @@ final class ResultSummaryView: UIView {
     private let descriptionResultLabel  = LabelFactory.createLabel(with: .regular,
                                                                    and: 16)
     private let textStack = StackFactory.createVerticalStack(with: 14)
-    private let restartButton = CustomButton(title: "Начать заново")
+    private let restartButton = CustomButton(title: String(localized: "restartBttn"))
     
     // MARK: - Private propetries
     private var showButton: Bool

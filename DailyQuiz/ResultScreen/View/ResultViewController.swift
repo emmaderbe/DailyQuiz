@@ -73,8 +73,8 @@ private extension ResultsViewController {
 private extension ResultsViewController {
     func showErrorAlert() {
         let alert = CustomAlertView(frame: view.bounds)
-        alert.setupMessage(with: "Ошибка",
-                           and: "Не удалось загрузить результат. Попробуйте позже.")
+        alert.setupMessage(with: String(localized: "alertErrorTitle"),
+                           and: String(localized: "alertErrorDescription"))
         alert.onStartTapped = { [weak alert] in
             alert?.removeFromSuperview()
         }

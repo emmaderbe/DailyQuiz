@@ -7,7 +7,7 @@ final class HistoryEmptyView: UIView {
     private let messageLabel = LabelFactory.createLabel(with: .regular,
                                                         and: 20)
     
-    private let startButton = CustomButton(title: "Начать викторину",
+    private let startButton = CustomButton(title: String(localized: "startBttn"),
                                            style: .active)
     
     // MARK: - Public сallback

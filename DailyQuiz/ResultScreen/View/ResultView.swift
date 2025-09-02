@@ -59,7 +59,7 @@ extension ResultsView {
                    resultDescription: String,
                    scoreText: String,
                    stars: Int) {
-        titleLabel.text = "Результаты"
+        titleLabel.text = String(localized: "resultTitle")
         resultSummaryView.configure(stars: stars,
                                     score: scoreText,
                                     title: resultTitle,

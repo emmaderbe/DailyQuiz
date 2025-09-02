@@ -2,12 +2,12 @@ import UIKit
 
 final class MainView: UIView {
     // MARK: - UI Components
-    private let historyButton = HistoryButton(title: "История")
+    private let historyButton = HistoryButton(title: String(localized: "historyTitle"))
     private let logoImage = ImageFactory.createLogoImage()
     private let backgroundView = BackgroundViewFactory.createBackView()
     private let verticalStack = StackFactory.createVerticalStack(with: 40)
     private let titleLabel = LabelFactory.createLabel(with: .bold, and: 28)
-    private let startQuizButton = CustomButton(title: "Начать викторину")
+    private let startQuizButton = CustomButton(title: String(localized: "startBttn"))
 
     private let loader: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)

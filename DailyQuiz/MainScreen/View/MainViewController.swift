@@ -40,8 +40,8 @@ private extension MainViewController {
     }
     
     func setupText() {
-        mainView.configureView(with: "Добро пожаловать в DailyQuiz!",
-                               and: "Ошибка! Попробуйте ещё раз")
+        mainView.configureView(with: String(localized: "welcomeTitle"),
+                               and: String(localized: "warningMainLabel"))
     }
 }
 

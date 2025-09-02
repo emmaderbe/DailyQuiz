@@ -12,7 +12,7 @@ final class QuizView: UIView {
                                                          and: 18)
     private let backStack = StackFactory.createVerticalStack(with: 24)
     private let answersStack = StackFactory.createVerticalStack(with: 16)
-    private let nextButton = CustomButton(title: "Далее",
+    private let nextButton = CustomButton(title: String(localized: "nextBttn"),
                                           style: .disabled)
     private let warningLabel = LabelFactory.createLabel(with: .regular,
                                                         and: 10)
